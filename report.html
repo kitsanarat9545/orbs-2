@@ -1,0 +1,757 @@
+<!doctype html>
+<html class="light" lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <title>ORBS — รายงาน</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#434654",
+              secondary: "#565e74",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              outline: "#737686",
+              surface: "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              primary: "#003fb1",
+              "outline-variant": "#c3c5d7",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#c9e6ff",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00174d",
+              "secondary-container": "#dae2fd",
+              background: "#f7f9fb",
+              "on-tertiary-container": "#bee2ff",
+              "surface-container": "#eceef0",
+              "primary-container": "#1a56db",
+              "surface-bright": "#f7f9fb",
+              "on-background": "#191c1e",
+              error: "#ba1a1a",
+              "on-primary-container": "#d4dcff",
+              "primary-fixed": "#dbe1ff",
+              tertiary: "#004f72",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#dae2fd",
+              "tertiary-container": "#006895",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      .font-headline {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .bar {
+        transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tab-active {
+        background: #003fb1;
+        color: #fff;
+      }
+
+      /* ── Mobile Sidebar ── */
+      #sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 45;
+      }
+      #sidebar-overlay.open { display: block; }
+      @media (max-width: 767px) {
+        #app-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+        #app-sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="h-screen w-72 left-0 top-0 fixed bg-surface-container flex flex-col p-6 gap-8 z-50"
+    >
+      <div class="flex items-center gap-3 px-4">
+        <div
+          class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary shadow-lg"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >widgets</span
+          >
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-on-surface tracking-tight">ORBS</h1>
+          <p
+            class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold"
+          >
+            Enterprise Booking
+          </p>
+        </div>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1" id="sidebar-nav">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="dashboard.html"
+          data-page="dashboard.html"
+          ><span class="material-symbols-outlined">dashboard</span
+          ><span>Dashboard</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="booking.html"
+          data-page="booking.html"
+          ><span class="material-symbols-outlined">directions_car</span
+          ><span>Booking Cars</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="resource.html"
+          data-page="resource.html"
+          ><span class="material-symbols-outlined">meeting_room</span
+          ><span>Resource</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="report.html"
+          data-page="report.html"
+          ><span class="material-symbols-outlined">analytics</span
+          ><span>Reports</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="approval.html"
+          data-page="approval.html"
+          ><span class="material-symbols-outlined">task</span
+          ><span>Approval</span
+          ><span
+            class="ml-auto text-[10px] font-bold bg-error text-white px-2 py-0.5 rounded-full"
+            id="badge-count"
+            >4</span
+          ></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="admin.html"
+          data-page="admin.html"
+          ><span class="material-symbols-outlined">admin_panel_settings</span
+          ><span>Admin</span></a
+        >
+      </nav>
+      <div class="flex flex-col gap-1 border-t border-outline-variant/10 pt-6">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="#"
+          ><span class="material-symbols-outlined">settings</span
+          ><span>Settings</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="index.html"
+          ><span class="material-symbols-outlined">logout</span
+          ><span>Logout</span></a
+        >
+      </div>
+    </aside>
+
+    <!-- Top Bar -->
+    <header
+      class="fixed top-0 right-0 left-0 md:left-72 z-40 flex flex-wrap justify-between items-center min-h-20 px-4 md:px-12 py-3 bg-surface/70 backdrop-blur-3xl shadow-[0_40px_80px_rgba(26,86,219,0.06)]"
+    >
+      <button class="md:hidden p-2 rounded-full hover:bg-surface-container-low mr-2" onclick="toggleSidebar()" aria-label="เมนู"><span class="material-symbols-outlined">menu</span></button>
+      <div class="flex items-center gap-4">
+        <p class="text-sm font-bold text-on-surface">รายงาน</p>
+        <div class="flex gap-1 bg-surface-container-low p-1 rounded-full overflow-x-auto">
+          <button
+            class="tab-active text-xs font-bold px-4 py-1.5 rounded-full transition-all"
+            onclick="switchTab('car', this)"
+          >
+            รถยนต์
+          </button>
+          <button
+            class="text-xs font-semibold px-4 py-1.5 rounded-full text-on-surface-variant transition-all"
+            onclick="switchTab('room', this)"
+          >
+            ห้องประชุม
+          </button>
+          <button
+            class="text-xs font-semibold px-4 py-1.5 rounded-full text-on-surface-variant transition-all"
+            onclick="switchTab('log', this)"
+          >
+            Activity Log
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <select
+          class="bg-surface-container-low border-none rounded-full px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-primary"
+          id="month-select"
+          onchange="renderAll()"
+        >
+          <option value="2026-03">มีนาคม 2026</option>
+          <option value="2026-02">กุมภาพันธ์ 2026</option>
+          <option value="2026-01">มกราคม 2026</option>
+        </select>
+        <button
+          class="bg-primary text-on-primary px-5 py-2 rounded-full font-bold text-sm flex items-center gap-2 hover:shadow-lg transition-all"
+        >
+          <span class="material-symbols-outlined text-sm">file_download</span>
+          Export
+        </button>
+        <div
+          class="flex items-center gap-3 pl-4 border-l border-outline-variant/20"
+        >
+          <div class="text-right">
+            <p class="text-sm font-bold text-on-surface leading-none">
+              Kitsamarat Ongsatta
+            </p>
+            <p class="text-[10px] text-on-surface-variant font-medium mt-0.5">
+              Administrator
+            </p>
+          </div>
+          <div
+            class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm ring-2 ring-surface-container"
+          >
+            K
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="md:ml-72 pt-24 md:pt-20 min-h-screen pb-20 md:pb-0">
+      <div class="p-8 md:p-12 max-w-7xl mx-auto space-y-10">
+        <!-- Header -->
+        <div>
+          <p
+            class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1"
+          >
+            รายงานองค์กร
+          </p>
+          <h1
+            class="text-4xl font-extrabold tracking-tight text-on-surface mb-2"
+          >
+            Organization Insights
+          </h1>
+          <p class="text-on-surface-variant">
+            ข้อมูลจาก car_bookings, resource_bookings, booking_approvals,
+            activity_logs
+          </p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="kpi-row">
+          <!-- filled by JS -->
+        </div>
+
+        <!-- Tab Panels -->
+        <div id="tab-car">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Dept Usage Bars -->
+            <div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold font-headline">
+                  การใช้งานตามแผนก (departments)
+                </h3>
+                <span class="text-xs text-on-surface-variant"
+                  >จาก booking_approvals</span
+                >
+              </div>
+              <div class="space-y-5" id="dept-bars"></div>
+            </div>
+            <!-- driver_type breakdown -->
+            <div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+              <h3 class="text-lg font-bold font-headline mb-2">
+                ประเภทผู้ขับ (driver_type)
+              </h3>
+              <p class="text-xs text-on-surface-variant mb-6">
+                สัดส่วน staff / self / own_car จาก car_bookings
+              </p>
+              <div class="space-y-4" id="driver-bars"></div>
+              <!-- Fuel Cost Summary -->
+              <div class="mt-6 bg-surface-container-low rounded-xl p-4">
+                <p
+                  class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2"
+                >
+                  ค่าน้ำมัน (fuel_cost) รวม
+                </p>
+                <p class="text-3xl font-black text-on-surface">฿12,840</p>
+                <p class="text-xs text-on-surface-variant mt-1">
+                  เฉลี่ย ฿428 / เที่ยว
+                </p>
+              </div>
+            </div>
+            <!-- Mileage Table -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-8 shadow-sm lg:col-span-2"
+            >
+              <h3 class="text-lg font-bold font-headline mb-4">
+                รายละเอียดการเดินทาง (mileage_start / mileage_end)
+              </h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                  <thead>
+                    <tr
+                      class="border-b border-outline-variant/20 text-[11px] uppercase tracking-widest text-on-surface-variant"
+                    >
+                      <th class="pb-3 font-black">booking_code</th>
+                      <th class="pb-3 font-black">รถ</th>
+                      <th class="pb-3 font-black">ปลายทาง</th>
+                      <th class="pb-3 font-black text-right">mileage_start</th>
+                      <th class="pb-3 font-black text-right">mileage_end</th>
+                      <th class="pb-3 font-black text-right">ระยะทาง (กม.)</th>
+                      <th class="pb-3 font-black text-right">fuel_cost (฿)</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="divide-y divide-outline-variant/10"
+                    id="mileage-table"
+                  ></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-room" class="hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+              <h3 class="text-lg font-bold font-headline mb-6">
+                ห้องประชุมยอดนิยม (resource_bookings)
+              </h3>
+              <div class="space-y-4" id="room-bars"></div>
+            </div>
+            <div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+              <h3 class="text-lg font-bold font-headline mb-2">
+                ช่วงเวลายอดนิยม
+              </h3>
+              <p class="text-xs text-on-surface-variant mb-6">
+                start_time / end_time ที่ถูกจองบ่อยที่สุด
+              </p>
+              <div class="space-y-3" id="time-slots"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-log" class="hidden">
+          <div
+            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
+          >
+            <div
+              class="px-6 py-4 border-b border-outline-variant/10 flex justify-between items-center"
+            >
+              <h3 class="font-bold text-on-surface">
+                Activity Log (activity_logs)
+              </h3>
+              <span class="text-xs text-on-surface-variant"
+                >user_id · action · target_type · ip_address</span
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead>
+                  <tr
+                    class="bg-surface-container-low/50 text-[11px] uppercase tracking-widest text-on-surface-variant"
+                  >
+                    <th class="px-6 py-3 font-black">id</th>
+                    <th class="px-6 py-3 font-black">user_id</th>
+                    <th class="px-6 py-3 font-black">action</th>
+                    <th class="px-6 py-3 font-black">target_type</th>
+                    <th class="px-6 py-3 font-black">target_id</th>
+                    <th class="px-6 py-3 font-black">ip_address</th>
+                    <th class="px-6 py-3 font-black">เวลา</th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="divide-y divide-outline-variant/10"
+                  id="log-table"
+                ></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const DEPT_DATA = [
+        { name: "ฝ่ายปฏิบัติการ", pct: 82, color: "bg-primary" },
+        { name: "ฝ่ายขาย", pct: 64, color: "bg-tertiary" },
+        { name: "ฝ่าย HR", pct: 51, color: "bg-secondary" },
+        { name: "ฝ่าย IT", pct: 38, color: "bg-outline" },
+        { name: "ฝ่ายบัญชี", pct: 22, color: "bg-error" },
+      ];
+      const DRIVER_DATA = [
+        { type: "staff (พนักงานขับ)", count: 18, pct: 60, color: "bg-primary" },
+        { type: "self (ขับเอง)", count: 8, pct: 27, color: "bg-tertiary" },
+        {
+          type: "own_car (รถส่วนตัว)",
+          count: 4,
+          pct: 13,
+          color: "bg-secondary",
+        },
+      ];
+      const MILEAGE_DATA = [
+        {
+          code: "CAR-2026-0001",
+          car: "Toyota Alphard",
+          dest: "มาบตาพุด",
+          start: 12500,
+          end: 12680,
+          fuel: 850,
+        },
+        {
+          code: "CAR-2026-0002",
+          car: "Honda CR-V",
+          dest: "บางนา",
+          start: 45200,
+          end: 45265,
+          fuel: 320,
+        },
+        {
+          code: "CAR-2026-0003",
+          car: "Toyota Camry",
+          dest: "สมุทรปราการ",
+          start: 8900,
+          end: 9020,
+          fuel: 580,
+        },
+        {
+          code: "CAR-2026-0004",
+          car: "Isuzu D-Max",
+          dest: "ชลบุรี",
+          start: 32100,
+          end: 32380,
+          fuel: 1240,
+        },
+        {
+          code: "CAR-2026-0005",
+          car: "Toyota Alphard",
+          dest: "ลาดกระบัง",
+          start: 12680,
+          end: 12750,
+          fuel: 340,
+        },
+      ];
+      const ROOMS = [
+        { name: "ห้อง A (ชั้น 4)", bookings: 42, pct: 84 },
+        { name: "Boardroom (ชั้น 10)", bookings: 28, pct: 56 },
+        { name: "ห้อง B (ชั้น 4)", bookings: 21, pct: 42 },
+        { name: "ห้องอบรม C", bookings: 15, pct: 30 },
+      ];
+      const TIMESLOTS = [
+        { time: "09:00–11:00", count: 18, pct: 72 },
+        { time: "13:00–15:00", count: 14, pct: 56 },
+        { time: "15:00–17:00", count: 11, pct: 44 },
+        { time: "08:00–09:00", count: 7, pct: 28 },
+      ];
+      const LOGS = [
+        {
+          id: 1001,
+          user_id: 3,
+          action: "CREATE",
+          target: "car_bookings",
+          tid: 5,
+          ip: "192.168.1.20",
+          ts: "2026-03-26 09:12:33",
+        },
+        {
+          id: 1002,
+          user_id: 1,
+          action: "APPROVE",
+          target: "booking_approvals",
+          tid: 5,
+          ip: "192.168.1.10",
+          ts: "2026-03-26 09:15:01",
+        },
+        {
+          id: 1003,
+          user_id: 5,
+          action: "CREATE",
+          target: "resource_bookings",
+          tid: 12,
+          ip: "192.168.1.35",
+          ts: "2026-03-26 10:03:44",
+        },
+        {
+          id: 1004,
+          user_id: 3,
+          action: "CANCEL",
+          target: "car_bookings",
+          tid: 3,
+          ip: "192.168.1.20",
+          ts: "2026-03-25 16:20:11",
+        },
+        {
+          id: 1005,
+          user_id: 2,
+          action: "UPDATE",
+          target: "cars",
+          tid: 4,
+          ip: "192.168.1.15",
+          ts: "2026-03-25 14:05:58",
+        },
+        {
+          id: 1006,
+          user_id: 1,
+          action: "REJECT",
+          target: "booking_approvals",
+          tid: 4,
+          ip: "192.168.1.10",
+          ts: "2026-03-25 11:30:22",
+        },
+      ];
+
+      function renderKPI() {
+        const kpis = [
+          {
+            label: "การจองทั้งหมด",
+            val: "128",
+            sub: "เดือนนี้",
+            icon: "event_available",
+            color: "bg-primary",
+          },
+          {
+            label: "ค่าน้ำมันรวม (fuel_cost)",
+            val: "฿12,840",
+            sub: "30 เที่ยว",
+            icon: "local_gas_station",
+            color: "bg-tertiary",
+          },
+          {
+            label: "อัตราอนุมัติ",
+            val: "94%",
+            sub: "6 ปฏิเสธ",
+            icon: "task",
+            color: "bg-secondary",
+          },
+          {
+            label: "ระยะทางรวม",
+            val: "1,840 กม.",
+            sub: "mileage_end−start",
+            icon: "route",
+            color: "bg-outline",
+          },
+        ];
+        document.getElementById("kpi-row").innerHTML = kpis
+          .map(
+            (k) => `
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+      <div class="w-10 h-10 ${k.color} bg-opacity-10 rounded-full flex items-center justify-center mb-4">
+        <span class="material-symbols-outlined text-sm" style="color:inherit">${k.icon}</span>
+      </div>
+      <p class="text-2xl font-black text-on-surface">${k.val}</p>
+      <p class="text-xs text-on-surface-variant font-medium mt-1">${k.label}</p>
+      <p class="text-[10px] text-outline mt-0.5">${k.sub}</p>
+    </div>
+  `,
+          )
+          .join("");
+      }
+
+      function renderAll() {
+        // Dept bars
+        document.getElementById("dept-bars").innerHTML = DEPT_DATA.map(
+          (d) => `
+    <div>
+      <div class="flex justify-between text-sm font-bold mb-1.5"><span>${d.name}</span><span class="text-primary">${d.pct}%</span></div>
+      <div class="h-2.5 bg-surface-container-low rounded-full overflow-hidden"><div class="bar h-full ${d.color} rounded-full" style="width:0%" data-w="${d.pct}%"></div></div>
+    </div>
+  `,
+        ).join("");
+        // Driver bars
+        document.getElementById("driver-bars").innerHTML = DRIVER_DATA.map(
+          (d) => `
+    <div class="flex items-center gap-3">
+      <div class="w-32 text-xs font-medium text-on-surface-variant truncate">${d.type}</div>
+      <div class="flex-1 h-2.5 bg-surface-container-low rounded-full overflow-hidden"><div class="bar h-full ${d.color} rounded-full" style="width:0%" data-w="${d.pct}%"></div></div>
+      <div class="text-xs font-bold text-on-surface w-8 text-right">${d.count}</div>
+    </div>
+  `,
+        ).join("");
+        // Mileage table
+        document.getElementById("mileage-table").innerHTML = MILEAGE_DATA.map(
+          (m) => `
+    <tr class="hover:bg-surface-container-low/20 transition-all">
+      <td class="px-0 py-3 font-mono text-xs text-primary">${m.code}</td>
+      <td class="px-0 py-3 font-semibold">${m.car}</td>
+      <td class="px-0 py-3 text-on-surface-variant">${m.dest}</td>
+      <td class="px-0 py-3 text-right font-mono text-xs">${m.start.toLocaleString()}</td>
+      <td class="px-0 py-3 text-right font-mono text-xs">${m.end.toLocaleString()}</td>
+      <td class="px-0 py-3 text-right font-bold text-tertiary">${(m.end - m.start).toLocaleString()}</td>
+      <td class="px-0 py-3 text-right font-bold text-error">฿${m.fuel.toLocaleString()}</td>
+    </tr>
+  `,
+        ).join("");
+        // Room bars
+        document.getElementById("room-bars").innerHTML = ROOMS.map(
+          (r) => `
+    <div>
+      <div class="flex justify-between text-sm font-bold mb-1.5"><span>${r.name}</span><span class="text-primary">${r.bookings} ครั้ง</span></div>
+      <div class="h-2.5 bg-surface-container-low rounded-full overflow-hidden"><div class="bar h-full bg-primary rounded-full" style="width:0%" data-w="${r.pct}%"></div></div>
+    </div>
+  `,
+        ).join("");
+        // Time slots
+        document.getElementById("time-slots").innerHTML = TIMESLOTS.map(
+          (t) => `
+    <div class="flex items-center gap-3">
+      <div class="w-28 text-xs font-bold text-on-surface-variant">${t.time}</div>
+      <div class="flex-1 h-2.5 bg-surface-container-low rounded-full overflow-hidden"><div class="bar h-full bg-tertiary rounded-full" style="width:0%" data-w="${t.pct}%"></div></div>
+      <div class="text-xs font-bold w-8 text-right">${t.count}</div>
+    </div>
+  `,
+        ).join("");
+        // Log table
+        const actionColor = {
+          CREATE: "text-tertiary",
+          APPROVE: "text-primary",
+          CANCEL: "text-error",
+          UPDATE: "text-secondary",
+          REJECT: "text-error",
+        };
+        document.getElementById("log-table").innerHTML = LOGS.map(
+          (l) => `
+    <tr class="hover:bg-surface-container-low/20 transition-all">
+      <td class="px-6 py-3 font-mono text-xs text-outline">${l.id}</td>
+      <td class="px-6 py-3 font-bold text-primary">${l.user_id}</td>
+      <td class="px-6 py-3 font-bold ${actionColor[l.action] || ""}">${l.action}</td>
+      <td class="px-6 py-3 text-xs font-mono">${l.target}</td>
+      <td class="px-6 py-3 text-xs">${l.tid}</td>
+      <td class="px-6 py-3 font-mono text-xs text-on-surface-variant">${l.ip}</td>
+      <td class="px-6 py-3 text-xs text-on-surface-variant">${l.ts}</td>
+    </tr>
+  `,
+        ).join("");
+        // Animate bars after render
+        setTimeout(() => {
+          document.querySelectorAll(".bar[data-w]").forEach((b) => {
+            b.style.width = b.dataset.w;
+          });
+        }, 50);
+      }
+
+      function switchTab(t, btn) {
+        ["tab-car", "tab-room", "tab-log"].forEach((id) =>
+          document.getElementById(id).classList.add("hidden"),
+        );
+        document.getElementById("tab-" + t).classList.remove("hidden");
+        document.querySelectorAll('[onclick^="switchTab"]').forEach((b) => {
+          b.classList.remove("tab-active", "text-on-primary");
+          b.classList.add("text-on-surface-variant");
+        });
+        btn.classList.add("tab-active");
+        btn.classList.remove("text-on-surface-variant");
+      }
+
+      (function () {
+        const p = location.pathname.split("/").pop() || "dashboard.html";
+        document.querySelectorAll("#sidebar-nav .nav-link").forEach((l) => {
+          if (l.dataset.page === p) {
+            l.classList.add(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.remove(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          } else {
+            l.classList.remove(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.add(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          }
+        });
+      })();
+      renderKPI();
+      renderAll();
+    </script>
+  
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex justify-around items-center h-16 px-2 z-50 border-t border-outline-variant/10">
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="dashboard.html">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[9px] font-bold">หน้าหลัก</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="booking.html">
+        <span class="material-symbols-outlined text-[22px]">directions_car</span>
+        <span class="text-[9px] font-bold">จองรถ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="resource.html">
+        <span class="material-symbols-outlined text-[22px]">meeting_room</span>
+        <span class="text-[9px] font-bold">ห้อง</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="approval.html">
+        <span class="material-symbols-outlined text-[22px]">task</span>
+        <span class="text-[9px] font-bold">อนุมัติ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="admin.html">
+        <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+        <span class="text-[9px] font-bold">Admin</span>
+      </a>
+    </nav>
+
+  <script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('app-sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+    document.getElementById('sidebar-overlay').addEventListener('click', function() {
+      document.getElementById('app-sidebar').classList.remove('open');
+      this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

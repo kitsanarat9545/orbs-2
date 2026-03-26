@@ -1,0 +1,1117 @@
+<!doctype html>
+<html class="light" lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <title>ORBS — Admin Panel</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#434654",
+              secondary: "#565e74",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              outline: "#737686",
+              surface: "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              primary: "#003fb1",
+              "outline-variant": "#c3c5d7",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#c9e6ff",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00174d",
+              "secondary-container": "#dae2fd",
+              background: "#f7f9fb",
+              "on-tertiary-container": "#bee2ff",
+              "surface-container": "#eceef0",
+              "primary-container": "#1a56db",
+              "surface-bright": "#f7f9fb",
+              "on-background": "#191c1e",
+              error: "#ba1a1a",
+              "on-primary-container": "#d4dcff",
+              "primary-fixed": "#dbe1ff",
+              tertiary: "#004f72",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#dae2fd",
+              "tertiary-container": "#006895",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-bg.open {
+        display: flex;
+        animation: fadeIn 0.2s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .modal-box {
+        animation: slideUp 0.25s ease;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tab-section {
+        display: none;
+      }
+      .tab-section.active {
+        display: block;
+      }
+      .perm-toggle {
+        width: 36px;
+        height: 20px;
+        border-radius: 99px;
+        border: 2px solid;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+        position: relative;
+      }
+      .perm-toggle.on {
+        background: #003fb1;
+        border-color: #003fb1;
+      }
+      .perm-toggle.off {
+        background: #e0e3e5;
+        border-color: #c3c5d7;
+      }
+      .perm-toggle::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #fff;
+        transition: transform 0.2s;
+      }
+      .perm-toggle.on::after {
+        transform: translateX(16px);
+      }
+
+      /* ── Mobile Sidebar ── */
+      #sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 45;
+      }
+      #sidebar-overlay.open { display: block; }
+      @media (max-width: 767px) {
+        #app-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+        #app-sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="h-screen w-72 left-0 top-0 fixed bg-surface-container flex flex-col p-6 gap-8 z-50"
+    >
+      <div class="flex items-center gap-3 px-4">
+        <div
+          class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary shadow-lg"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >widgets</span
+          >
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-on-surface tracking-tight">ORBS</h1>
+          <p
+            class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold"
+          >
+            Enterprise Booking
+          </p>
+        </div>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1" id="sidebar-nav">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="dashboard.html"
+          data-page="dashboard.html"
+          ><span class="material-symbols-outlined">dashboard</span
+          ><span>Dashboard</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="booking.html"
+          data-page="booking.html"
+          ><span class="material-symbols-outlined">directions_car</span
+          ><span>Booking Cars</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="resource.html"
+          data-page="resource.html"
+          ><span class="material-symbols-outlined">meeting_room</span
+          ><span>Resource</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="report.html"
+          data-page="report.html"
+          ><span class="material-symbols-outlined">analytics</span
+          ><span>Reports</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="approval.html"
+          data-page="approval.html"
+          ><span class="material-symbols-outlined">task</span
+          ><span>Approval</span
+          ><span
+            class="ml-auto text-[10px] font-bold bg-error text-white px-2 py-0.5 rounded-full"
+            id="badge-count"
+            >4</span
+          ></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="admin.html"
+          data-page="admin.html"
+          ><span class="material-symbols-outlined">admin_panel_settings</span
+          ><span>Admin</span></a
+        >
+      </nav>
+      <div class="flex flex-col gap-1 border-t border-outline-variant/10 pt-6">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="#"
+          ><span class="material-symbols-outlined">settings</span
+          ><span>Settings</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="index.html"
+          ><span class="material-symbols-outlined">logout</span
+          ><span>Logout</span></a
+        >
+      </div>
+    </aside>
+
+    <!-- Top Bar -->
+    <header
+      class="fixed top-0 right-0 left-0 md:left-72 z-40 flex justify-between items-center h-20 px-4 md:px-12 bg-surface/70 backdrop-blur-3xl shadow-[0_40px_80px_rgba(26,86,219,0.06)]"
+    >
+      <button class="md:hidden p-2 rounded-full hover:bg-surface-container-low mr-2" onclick="toggleSidebar()" aria-label="เมนู"><span class="material-symbols-outlined">menu</span></button>
+      <div>
+        <p class="text-sm font-bold text-on-surface">Admin Panel</p>
+        <p class="text-xs text-on-surface-variant">
+          users · roles · cars · role_menus · user_menus
+        </p>
+      </div>
+      <div
+        class="flex items-center gap-3 pl-4 border-l border-outline-variant/20"
+      >
+        <div class="text-right">
+          <p class="text-sm font-bold text-on-surface leading-none">
+            Kitsamarat Ongsatta
+          </p>
+          <p class="text-[10px] text-on-surface-variant font-medium mt-0.5">
+            Administrator
+          </p>
+        </div>
+        <div
+          class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm ring-2 ring-surface-container"
+        >
+          K
+        </div>
+      </div>
+    </header>
+
+    <main class="md:ml-72 pt-28 pb-16 min-h-screen pb-20 md:pb-0">
+      <div class="px-8 md:px-12 max-w-7xl mx-auto">
+        <!-- Page Header -->
+        <div class="mb-8">
+          <h1
+            class="text-4xl font-extrabold tracking-tight text-on-surface mb-2"
+          >
+            ระบบจัดการ
+          </h1>
+          <p class="text-on-surface-variant">
+            จัดการผู้ใช้งาน บทบาท รถยนต์ และสิทธิ์การเข้าถึง
+          </p>
+        </div>
+
+        <!-- Tab Nav -->
+        <div
+          class="flex gap-1 bg-surface-container p-1.5 rounded-full w-fit mb-8 overflow-x-auto max-w-full"
+        >
+          <button
+            class="admin-tab active text-sm font-bold px-5 py-2 rounded-full bg-primary text-on-primary transition-all"
+            onclick="switchAdminTab('users', this)"
+          >
+            👤 ผู้ใช้งาน
+          </button>
+          <button
+            class="admin-tab text-sm font-semibold px-5 py-2 rounded-full text-on-surface-variant transition-all"
+            onclick="switchAdminTab('roles', this)"
+          >
+            🛡️ บทบาท & สิทธิ์
+          </button>
+          <button
+            class="admin-tab text-sm font-semibold px-5 py-2 rounded-full text-on-surface-variant transition-all"
+            onclick="switchAdminTab('cars', this)"
+          >
+            🚗 รถยนต์
+          </button>
+          <button
+            class="admin-tab text-sm font-semibold px-5 py-2 rounded-full text-on-surface-variant transition-all"
+            onclick="switchAdminTab('drivers', this)"
+          >
+            🧑‍✈️ พนักงานขับรถ
+          </button>
+        </div>
+
+        <!-- ══ TAB: USERS ══ -->
+        <div class="tab-section active" id="tab-users">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-xs text-on-surface-variant">
+              ตาราง users · user_profiles · departments
+            </p>
+            <button
+              onclick="openUserModal()"
+              class="bg-primary text-on-primary text-sm font-bold px-5 py-2.5 rounded-full flex items-center gap-2 hover:shadow-lg transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-sm">person_add</span>
+              เพิ่มผู้ใช้ใหม่
+            </button>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left min-w-[640px]">
+              <thead>
+                <tr
+                  class="bg-surface-container-low/50 text-[11px] uppercase tracking-widest text-on-surface-variant"
+                >
+                  <th class="px-6 py-4 font-black">id · employee_code</th>
+                  <th class="px-6 py-4 font-black">
+                    full_name (user_profiles)
+                  </th>
+                  <th class="px-6 py-4 font-black">email</th>
+                  <th class="px-6 py-4 font-black">role (role_id)</th>
+                  <th class="px-6 py-4 font-black">department</th>
+                  <th class="px-6 py-4 font-black text-center">is_active</th>
+                  <th class="px-6 py-4 font-black text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-outline-variant/10"
+                id="user-table-body"
+              ></tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB: ROLES & PERMISSIONS ══ -->
+        <div class="tab-section" id="tab-roles">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Roles list -->
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-on-surface">ตาราง roles</h3>
+                <span class="text-xs text-on-surface-variant"
+                  >is_system = ลบไม่ได้</span
+                >
+              </div>
+              <div class="space-y-2" id="roles-list"></div>
+            </div>
+            <!-- role_menus permission matrix -->
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm p-6">
+              <h3 class="font-bold text-on-surface mb-1">
+                role_menus Permission Matrix
+              </h3>
+              <p class="text-xs text-on-surface-variant mb-4">
+                is_allowed toggle · คลิกเพื่อเปลี่ยน
+              </p>
+              <div class="overflow-x-auto">
+                <table class="text-xs w-full" id="perm-matrix"></table>
+              </div>
+            </div>
+            <!-- user_menus override section -->
+            <div
+              class="bg-surface-container-lowest rounded-xl shadow-sm p-6 lg:col-span-2"
+            >
+              <h3 class="font-bold text-on-surface mb-1">
+                user_menus Override
+              </h3>
+              <p class="text-xs text-on-surface-variant mb-4">
+                สิทธิ์พิเศษระดับบุคคล — override จาก role_menus · created_by
+                (admin)
+              </p>
+              <div class="space-y-2" id="user-menus-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB: CARS ══ -->
+        <div class="tab-section" id="tab-cars">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-xs text-on-surface-variant">
+              ตาราง cars · status enum · current_mileage
+            </p>
+            <button
+              onclick="openCarModal()"
+              class="bg-primary text-on-primary text-sm font-bold px-5 py-2.5 rounded-full flex items-center gap-2 hover:shadow-lg transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-sm">add</span>
+              เพิ่มรถใหม่
+            </button>
+          </div>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
+            id="car-cards"
+          ></div>
+        </div>
+
+        <!-- ══ TAB: DRIVERS ══ -->
+        <div class="tab-section" id="tab-drivers">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-xs text-on-surface-variant">
+              ตาราง car_drivers · license_number · license_expiry · is_active
+            </p>
+            <button
+              class="bg-primary text-on-primary text-sm font-bold px-5 py-2.5 rounded-full flex items-center gap-2 hover:shadow-lg transition-all active:scale-95"
+            >
+              <span class="material-symbols-outlined text-sm">person_add</span>
+              เพิ่มพนักงานขับรถ
+            </button>
+          </div>
+          <div
+            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
+          >
+            <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left min-w-[560px]">
+              <thead>
+                <tr
+                  class="bg-surface-container-low/50 text-[11px] uppercase tracking-widest text-on-surface-variant"
+                >
+                  <th class="px-6 py-4 font-black">id · user_id</th>
+                  <th class="px-6 py-4 font-black">full_name</th>
+                  <th class="px-6 py-4 font-black">license_number</th>
+                  <th class="px-6 py-4 font-black">license_expiry</th>
+                  <th class="px-6 py-4 font-black text-center">is_active</th>
+                  <th class="px-6 py-4 font-black text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-outline-variant/10"
+                id="driver-table"
+              ></tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- User Modal -->
+    <div
+      class="modal-bg"
+      id="user-modal"
+      onclick="closeModal(event, 'user-modal')"
+    >
+      <div
+        class="modal-box bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-on-surface">
+            เพิ่ม/แก้ไข ผู้ใช้งาน
+          </h2>
+          <button
+            onclick="
+              document.getElementById('user-modal').classList.remove('open')
+            "
+            class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5 col-span-2">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >employee_code</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="EMP-001"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >full_name *</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="ชื่อ-นามสกุล"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >email *</label
+            ><input
+              type="email"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="email@company.com"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >role_id *</label
+            ><select
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+            >
+              <option>1 — Super Admin</option>
+              <option>2 — Manager</option>
+              <option>3 — Staff</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >department_id</label
+            ><select
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+            >
+              <option>1 — ฝ่ายปฏิบัติการ</option>
+              <option>2 — ฝ่ายขาย</option>
+              <option>3 — ฝ่าย HR</option>
+              <option>4 — ฝ่าย IT</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >position</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="ตำแหน่ง"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >phone</label
+            ><input
+              type="tel"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="0812345678"
+            />
+          </div>
+          <div
+            class="flex items-center gap-3 col-span-2 bg-surface-container-low rounded-lg px-4 py-3"
+          >
+            <span class="text-sm font-semibold">is_active</span>
+            <div
+              class="perm-toggle on ml-auto"
+              id="user-active-toggle"
+              onclick="
+                this.classList.toggle('on');
+                this.classList.toggle('off');
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button
+            onclick="
+              document.getElementById('user-modal').classList.remove('open')
+            "
+            class="flex-1 py-3 rounded-xl bg-surface-container text-on-surface-variant font-semibold text-sm hover:bg-surface-container-high transition-all"
+          >
+            ยกเลิก
+          </button>
+          <button
+            class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+          >
+            บันทึก
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Car Modal -->
+    <div
+      class="modal-bg"
+      id="car-modal"
+      onclick="closeModal(event, 'car-modal')"
+    >
+      <div
+        class="modal-box bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-on-surface">เพิ่ม/แก้ไข รถยนต์</h2>
+          <button
+            onclick="
+              document.getElementById('car-modal').classList.remove('open')
+            "
+            class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >license_plate *</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="กท-1234"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >brand</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="Toyota"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >model</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="Alphard"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >car_type</label
+            ><input
+              type="text"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="MPV / SUV / Sedan"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >seat_count</label
+            ><input
+              type="number"
+              min="1"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="7"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >current_mileage</label
+            ><input
+              type="number"
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              placeholder="12500"
+            />
+          </div>
+          <div class="flex flex-col gap-1.5 col-span-2">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >status (enum)</label
+            >
+            <select
+              class="bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+            >
+              <option value="available">available</option>
+              <option value="in_use">in_use</option>
+              <option value="maintenance">maintenance</option>
+              <option value="retired">retired</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button
+            onclick="
+              document.getElementById('car-modal').classList.remove('open')
+            "
+            class="flex-1 py-3 rounded-xl bg-surface-container text-on-surface-variant font-semibold text-sm hover:bg-surface-container-high transition-all"
+          >
+            ยกเลิก
+          </button>
+          <button
+            class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
+          >
+            บันทึก
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── Data ──
+      const USERS = [
+        {
+          id: 1,
+          code: "EMP-001",
+          name: "สมชาย ใจดี",
+          email: "somchai@company.com",
+          role: "Super Admin",
+          role_id: 1,
+          dept: "ฝ่าย IT",
+          is_active: 1,
+        },
+        {
+          id: 2,
+          code: "EMP-002",
+          name: "วิชัย รักงาน",
+          email: "wichai@company.com",
+          role: "Manager",
+          role_id: 2,
+          dept: "ฝ่ายปฏิบัติการ",
+          is_active: 1,
+        },
+        {
+          id: 3,
+          code: "EMP-003",
+          name: "สมศักดิ์ มีใจ",
+          email: "somsak@company.com",
+          role: "Staff",
+          role_id: 3,
+          dept: "ฝ่ายปฏิบัติการ",
+          is_active: 1,
+        },
+        {
+          id: 4,
+          code: "EMP-004",
+          name: "ประสิทธิ์ ขยัน",
+          email: "prasit@company.com",
+          role: "Staff",
+          role_id: 3,
+          dept: "ฝ่าย HR",
+          is_active: 1,
+        },
+        {
+          id: 5,
+          code: "EMP-005",
+          name: "อนันต์ วงษ์",
+          email: "anan@company.com",
+          role: "Staff",
+          role_id: 3,
+          dept: "ฝ่ายขาย",
+          is_active: 0,
+        },
+      ];
+      const ROLES = [
+        { id: 1, name: "Super Admin", slug: "super_admin", is_system: 1 },
+        { id: 2, name: "Manager", slug: "manager", is_system: 1 },
+        { id: 3, name: "Staff", slug: "staff", is_system: 0 },
+        { id: 4, name: "Driver", slug: "driver", is_system: 0 },
+      ];
+      const MENUS = [
+        "dashboard",
+        "จองรถ",
+        "ทรัพยากร",
+        "รายงาน",
+        "อนุมัติ",
+        "admin",
+      ];
+      const PERM_MATRIX = {
+        1: [1, 1, 1, 1, 1, 1],
+        2: [1, 1, 1, 1, 1, 0],
+        3: [1, 1, 1, 0, 0, 0],
+        4: [1, 1, 0, 0, 0, 0],
+      };
+      const CARS_DATA = [
+        {
+          id: 1,
+          plate: "กท-5678",
+          brand: "Toyota",
+          model: "Alphard",
+          type: "MPV",
+          seats: 7,
+          mileage: 12750,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 2,
+          plate: "BKK-1234",
+          brand: "Toyota",
+          model: "Camry",
+          type: "Sedan",
+          seats: 4,
+          mileage: 45265,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 3,
+          plate: "ชบ-3456",
+          brand: "Honda",
+          model: "CR-V",
+          type: "SUV",
+          seats: 5,
+          mileage: 9020,
+          status: "in_use",
+          is_active: 1,
+        },
+        {
+          id: 4,
+          plate: "สก-9012",
+          brand: "Isuzu",
+          model: "D-Max",
+          type: "Pickup",
+          seats: 4,
+          mileage: 32380,
+          status: "maintenance",
+          is_active: 0,
+        },
+        {
+          id: 5,
+          plate: "ปท-7890",
+          brand: "Toyota",
+          model: "Fortuner",
+          type: "SUV",
+          seats: 7,
+          mileage: 58000,
+          status: "available",
+          is_active: 1,
+        },
+      ];
+      const DRIVERS_DATA = [
+        {
+          id: 1,
+          user_id: 3,
+          name: "สมศักดิ์ มีใจ",
+          license: "ขข 112233",
+          expiry: "2026-12-31",
+          is_active: 1,
+        },
+        {
+          id: 2,
+          user_id: 2,
+          name: "วิชัย รักงาน",
+          license: "ขข 445566",
+          expiry: "2027-03-15",
+          is_active: 1,
+        },
+        {
+          id: 3,
+          user_id: null,
+          name: "ประยุทธ์ นำทาง",
+          license: "ขข 778899",
+          expiry: "2025-08-01",
+          is_active: 0,
+        },
+      ];
+      const USER_MENUS_OVERRIDES = [
+        {
+          id: 1,
+          user_id: 5,
+          user: "อนันต์ วงษ์",
+          menu: "รายงาน",
+          is_allowed: 1,
+          created_by: "สมชาย ใจดี (1)",
+        },
+        {
+          id: 2,
+          user_id: 4,
+          user: "ประสิทธิ์ ขยัน",
+          menu: "อนุมัติ",
+          is_allowed: 0,
+          created_by: "สมชาย ใจดี (1)",
+        },
+      ];
+
+      // ── Render Users ──
+      function renderUsers() {
+        document.getElementById("user-table-body").innerHTML = USERS.map(
+          (u) => `
+    <tr class="hover:bg-surface-container-low/20 transition-all">
+      <td class="px-6 py-4"><span class="font-bold text-primary">${u.id}</span> · <span class="font-mono text-xs">${u.code}</span></td>
+      <td class="px-6 py-4 font-semibold">${u.name}</td>
+      <td class="px-6 py-4 text-xs text-on-surface-variant">${u.email}</td>
+      <td class="px-6 py-4"><span class="text-xs font-bold bg-primary-fixed text-primary px-2 py-1 rounded-full">${u.role}</span></td>
+      <td class="px-6 py-4 text-xs text-on-surface-variant">${u.dept}</td>
+      <td class="px-6 py-4 text-center">${u.is_active ? '<span class="text-xs font-bold text-tertiary">✓ active</span>' : '<span class="text-xs font-bold text-error">✗ inactive</span>'}</td>
+      <td class="px-6 py-4 text-right flex gap-2 justify-end">
+        <button onclick="openUserModal()" class="text-xs font-bold text-primary hover:bg-primary-fixed px-3 py-1.5 rounded-full transition-all">แก้ไข</button>
+        <button class="text-xs font-bold text-error hover:bg-error-container px-3 py-1.5 rounded-full transition-all">ลบ</button>
+      </td>
+    </tr>
+  `,
+        ).join("");
+      }
+
+      // ── Render Roles ──
+      function renderRoles() {
+        document.getElementById("roles-list").innerHTML = ROLES.map(
+          (r) => `
+    <div class="flex items-center gap-3 bg-surface-container-low rounded-xl px-4 py-3">
+      <span class="w-8 h-8 bg-primary-fixed text-primary rounded-full flex items-center justify-center text-xs font-black">${r.id}</span>
+      <div class="flex-1">
+        <p class="font-bold text-sm">${r.name}</p>
+        <p class="text-[10px] text-on-surface-variant font-mono">${r.slug}</p>
+      </div>
+      ${r.is_system ? '<span class="text-[10px] bg-outline-variant text-on-surface-variant px-2 py-0.5 rounded-full font-bold">system</span>' : '<button class="text-xs font-bold text-error hover:bg-error-container px-2 py-1 rounded-full transition-all">ลบ</button>'}
+    </div>
+  `,
+        ).join("");
+
+        // Permission Matrix
+        const tm = document.getElementById("perm-matrix");
+        const header = `<thead><tr><th class="pb-2 text-left font-bold text-on-surface-variant pr-4">Role</th>${MENUS.map((m) => `<th class="pb-2 text-center text-[10px] font-bold text-on-surface-variant px-2 uppercase tracking-wider">${m}</th>`).join("")}</tr></thead>`;
+        const rows = ROLES.map(
+          (r) =>
+            `<tr><td class="py-2 pr-4 font-bold text-sm text-on-surface whitespace-nowrap">${r.name}</td>${MENUS.map((_, i) => `<td class="py-2 text-center px-2"><div class="perm-toggle ${PERM_MATRIX[r.id][i] ? "on" : "off"} mx-auto" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div></td>`).join("")}</tr>`,
+        ).join("");
+        tm.innerHTML = header + `<tbody>${rows}</tbody>`;
+
+        // user_menus overrides
+        document.getElementById("user-menus-list").innerHTML =
+          USER_MENUS_OVERRIDES.map(
+            (o) => `
+    <div class="flex items-center gap-4 bg-surface-container-low rounded-xl px-4 py-3">
+      <span class="text-xs font-bold text-primary">${o.user}</span>
+      <span class="text-xs bg-secondary-fixed text-secondary px-2 py-0.5 rounded-full font-bold">${o.menu}</span>
+      <span class="text-[10px] text-on-surface-variant">is_allowed: <span class="font-bold ${o.is_allowed ? "text-tertiary" : "text-error"}">${o.is_allowed ? "1 (เข้าถึงได้)" : "0 (บล็อก)"}</span></span>
+      <span class="text-[10px] text-on-surface-variant ml-auto">created_by: ${o.created_by}</span>
+      <button class="text-xs font-bold text-error hover:bg-error-container px-2 py-1 rounded-full transition-all">ลบ</button>
+    </div>
+  `,
+          ).join("") +
+          '<button class="mt-2 text-xs font-bold text-primary hover:bg-primary-fixed px-4 py-2 rounded-full transition-all flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> เพิ่ม Override</button>';
+      }
+
+      // ── Render Cars ──
+      function renderCars() {
+        const statusMap = {
+          available: { label: "ว่าง", cls: "bg-tertiary-fixed text-tertiary" },
+          in_use: {
+            label: "ใช้งาน",
+            cls: "bg-secondary-container text-secondary",
+          },
+          maintenance: {
+            label: "ซ่อมบำรุง",
+            cls: "bg-error-container text-error",
+          },
+          retired: {
+            label: "ปลดระวาง",
+            cls: "bg-surface-container-high text-on-surface-variant",
+          },
+        };
+        document.getElementById("car-cards").innerHTML = CARS_DATA.map(
+          (c) => `
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm p-5 ${!c.is_active ? "opacity-60" : ""}">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-2xl">🚗</div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full ${statusMap[c.status].cls}">${statusMap[c.status].label}</span>
+      </div>
+      <h3 class="font-bold text-on-surface">${c.brand} ${c.model}</h3>
+      <p class="font-mono text-xs text-primary mt-0.5">${c.plate}</p>
+      <div class="grid grid-cols-2 gap-2 mt-4 text-xs text-on-surface-variant">
+        <div><p class="text-[10px] uppercase tracking-widest font-bold mb-0.5">car_type</p><p class="font-semibold text-on-surface">${c.type}</p></div>
+        <div><p class="text-[10px] uppercase tracking-widest font-bold mb-0.5">seat_count</p><p class="font-semibold text-on-surface">${c.seats} ที่นั่ง</p></div>
+        <div class="col-span-2"><p class="text-[10px] uppercase tracking-widest font-bold mb-0.5">current_mileage</p><p class="font-semibold text-on-surface">${c.mileage.toLocaleString()} กม.</p></div>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button onclick="openCarModal()" class="flex-1 text-xs font-bold text-primary hover:bg-primary-fixed py-2 rounded-full transition-all">แก้ไข</button>
+        <select class="flex-1 text-xs bg-surface-container-low border-none rounded-full px-2 py-2 font-semibold focus:ring-2 focus:ring-primary" onchange="alert('เปลี่ยนสถานะเป็น: '+this.value)">
+          <option value="available" ${c.status === "available" ? "selected" : ""}>ว่าง</option>
+          <option value="in_use" ${c.status === "in_use" ? "selected" : ""}>ใช้งาน</option>
+          <option value="maintenance" ${c.status === "maintenance" ? "selected" : ""}>ซ่อมบำรุง</option>
+          <option value="retired" ${c.status === "retired" ? "selected" : ""}>ปลดระวาง</option>
+        </select>
+      </div>
+    </div>
+  `,
+        ).join("");
+      }
+
+      // ── Render Drivers ──
+      function renderDrivers() {
+        document.getElementById("driver-table").innerHTML = DRIVERS_DATA.map(
+          (d) => `
+    <tr class="hover:bg-surface-container-low/20 transition-all">
+      <td class="px-6 py-4"><span class="font-bold text-primary">${d.id}</span>${d.user_id ? ` · user_id: ${d.user_id}` : ' · <span class="text-outline text-xs">ภายนอก</span>'}</td>
+      <td class="px-6 py-4 font-semibold">${d.name}</td>
+      <td class="px-6 py-4 font-mono text-xs">${d.license}</td>
+      <td class="px-6 py-4 text-xs ${new Date(d.expiry) < new Date() ? "text-error font-bold" : "text-on-surface-variant"}">${d.expiry}${new Date(d.expiry) < new Date() ? " ⚠️ หมดอายุ" : ""}</td>
+      <td class="px-6 py-4 text-center">${d.is_active ? '<span class="text-xs font-bold text-tertiary">✓</span>' : '<span class="text-xs font-bold text-error">✗</span>'}</td>
+      <td class="px-6 py-4 text-right"><button class="text-xs font-bold text-primary hover:bg-primary-fixed px-3 py-1.5 rounded-full transition-all">แก้ไข</button></td>
+    </tr>
+  `,
+        ).join("");
+      }
+
+      function switchAdminTab(t, btn) {
+        document
+          .querySelectorAll(".tab-section")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("tab-" + t).classList.add("active");
+        document.querySelectorAll(".admin-tab").forEach((b) => {
+          b.classList.remove("active", "bg-primary", "text-on-primary");
+          b.classList.add("text-on-surface-variant");
+        });
+        btn.classList.add("active", "bg-primary", "text-on-primary");
+        btn.classList.remove("text-on-surface-variant");
+      }
+      function openUserModal() {
+        document.getElementById("user-modal").classList.add("open");
+      }
+      function openCarModal() {
+        document.getElementById("car-modal").classList.add("open");
+      }
+      function closeModal(e, id) {
+        if (e.target === document.getElementById(id))
+          document.getElementById(id).classList.remove("open");
+      }
+
+      (function () {
+        const p = location.pathname.split("/").pop() || "dashboard.html";
+        document.querySelectorAll("#sidebar-nav .nav-link").forEach((l) => {
+          if (l.dataset.page === p) {
+            l.classList.add(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.remove(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          } else {
+            l.classList.remove(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.add(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          }
+        });
+      })();
+      renderUsers();
+      renderRoles();
+      renderCars();
+      renderDrivers();
+    </script>
+  
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex justify-around items-center h-16 px-2 z-50 border-t border-outline-variant/10">
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="dashboard.html">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[9px] font-bold">หน้าหลัก</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="booking.html">
+        <span class="material-symbols-outlined text-[22px]">directions_car</span>
+        <span class="text-[9px] font-bold">จองรถ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="resource.html">
+        <span class="material-symbols-outlined text-[22px]">meeting_room</span>
+        <span class="text-[9px] font-bold">ห้อง</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="approval.html">
+        <span class="material-symbols-outlined text-[22px]">task</span>
+        <span class="text-[9px] font-bold">อนุมัติ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="admin.html">
+        <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+        <span class="text-[9px] font-bold">Admin</span>
+      </a>
+    </nav>
+
+  <script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('app-sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+    document.getElementById('sidebar-overlay').addEventListener('click', function() {
+      document.getElementById('app-sidebar').classList.remove('open');
+      this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

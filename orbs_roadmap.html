@@ -1,0 +1,669 @@
+<!doctype html>
+<html class="light" lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ORBS — แผนการพัฒนาโครงการ (Roadmap)</title>
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts: Sarabun & Inter (Sarabun รองรับไทยสวย) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#2e3132",
+              outline: "#75777e",
+              tertiary: "#f0faf6",
+              "on-tertiary-fixed": "#00201b",
+              "outline-variant": "#c5c6ce",
+              "primary-fixed": "#d7e2ff",
+              surface: "#f7f8fb",
+              "on-secondary-fixed-variant": "#394857",
+              "on-secondary-fixed": "#0d1d2a",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-bright": "#f8f9fa",
+              "on-tertiary-container": "#789991",
+              "surface-container": "#f0f1f5",
+              background: "#f8f9fa",
+              "on-tertiary-fixed-variant": "#2d4c46",
+              "on-error": "#ffffff",
+              error: "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f3f4f5",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c7eb",
+              "surface-container-high": "#e7e8e9",
+              "on-primary-fixed": "#081b38",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "primary-fixed-dim": "#b6c7eb",
+              "tertiary-container": "#d0f0eb",
+              "on-surface": "#191c1d",
+              "on-surface-variant": "#44474d",
+              "on-primary-fixed-variant": "#374765",
+              "on-secondary-container": "#556474",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#accec5",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d1e1f4",
+              "surface-tint": "#4e5f7e",
+              secondary: "#50606f",
+              "secondary-fixed-dim": "#b8c8da",
+              "surface-dim": "#d9dadb",
+              "primary-container": "#1a2b48",
+              "tertiary-fixed": "#c7eae1",
+              "secondary-fixed": "#d4e4f6",
+              "on-background": "#191c1d",
+              "on-primary-container": "#8293b5",
+              primary: "#031632",
+              "surface-container-highest": "#e1e3e4",
+            },
+            fontFamily: {
+              headline: ["Sarabun", "Inter", "sans-serif"],
+              body: ["Sarabun", "Inter", "sans-serif"],
+              label: ["Sarabun", "Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(18px);
+      }
+      .timeline-track::before {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #c5c6ce 15%,
+          #c5c6ce 85%,
+          transparent
+        );
+      }
+      /* Improve Thai readability */
+      body {
+        line-height: 1.7;
+      }
+      a {
+        transition: all 0.2s;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-primary"
+  >
+    <!-- TopAppBar -->
+
+    <!-- SideNavBar (Hidden on small screens) -->
+    <aside
+      class="h-screen w-64 fixed left-0 top-0 bg-[#f3f4f5] dark:bg-slate-900 flex flex-col py-8 gap-4 z-40 hidden md:flex pt-24 border-r border-surface-variant/50"
+    >
+      <div class="px-6 mb-6">
+        <h2 class="text-lg font-black text-[#1A2B48] dark:text-slate-200">
+          ORBS | Roadmap
+        </h2>
+        <p class="text-xs text-slate-500 uppercase tracking-widest">
+          Organization Resource Booking System
+        </p>
+      </div>
+      <div class="flex flex-col gap-1 pr-4">
+        <a
+          class="flex items-center gap-4 py-3 px-6 text-[#031632] dark:text-white font-bold bg-[#ffffff] dark:bg-slate-800 rounded-r-full shadow-sm transform active:scale-95 duration-200"
+          href="orbs_roadmap.html"
+        >
+          <span class="material-symbols-outlined" data-icon="timeline"></span>
+          <span class="font-['Inter'] text-sm font-medium">Roadmap</span>
+        </a>
+        <a
+          class="flex items-center gap-4 py-3 px-6 text-slate-500 dark:text-slate-400 hover:text-[#031632] hover:bg-slate-200 dark:hover:bg-slate-700 transition-all rounded-r-full transform active:scale-95 duration-200"
+          href="index.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span
+            class="material-symbols-outlined"
+            data-icon="leaderboard"
+          ></span>
+          <span class="font-['Inter'] text-sm font-medium">Demo System</span>
+        </a>
+        <a
+          class="flex items-center gap-4 py-3 px-6 text-slate-500 dark:text-slate-400 hover:text-[#031632] hover:bg-slate-200 dark:hover:bg-slate-700 transition-all rounded-r-full transform active:scale-95 duration-200"
+          href="ORBS_Flow_v3.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span
+            class="material-symbols-outlined"
+            data-icon="inventory_2"
+          ></span>
+          <span class="font-['Inter'] text-sm font-medium">ORBS Flow</span>
+        </a>
+        <a
+          class="flex items-center gap-4 py-3 px-6 text-slate-500 dark:text-slate-400 hover:text-[#031632] hover:bg-slate-200 dark:hover:bg-slate-700 transition-all rounded-r-full transform active:scale-95 duration-200"
+          href="http://www.maryanne.co.th/th/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="material-symbols-outlined" data-icon="settings"></span>
+          <span class="font-['Inter'] text-sm font-medium">Support By</span>
+        </a>
+      </div>
+      <div class="mt-auto px-6 flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm ring-2 ring-surface-container"
+        >
+          K
+        </div>
+        <div>
+          <p class="text-sm font-bold text-primary">Kitsanarat Ongsatta</p>
+          <p class="text-[10px] text-slate-500 uppercase">IT Support</p>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="md:ml-64 pt-24 px-8 pb-12 min-h-screen">
+      <!-- Hero Header -->
+      <div class="max-w-5xl mx-auto mb-16 relative">
+        <div
+          class="absolute -top-12 -left-8 opacity-[0.03] select-none pointer-events-none"
+        >
+          <h1 class="font-headline font-extrabold text-[12rem] leading-none">
+            ORBS
+          </h1>
+        </div>
+        <div class="relative z-10">
+          <span
+            class="inline-block px-3 py-1 bg-primary text-on-primary text-[10px] font-bold tracking-widest uppercase mb-4 rounded-sm"
+            >ORBS | Roadmap</span
+          >
+          <h1
+            class="text-5xl font-headline font-extrabold text-primary tracking-tight mb-4 leading-tight"
+          >
+            แผนการพัฒนาโครงการ (Roadmap)
+          </h1>
+          <p
+            class="text-lg text-on-surface-variant max-w-2xl font-light leading-relaxed"
+          >
+            แนะนำลำดับการพัฒนา
+            <span class="font-semibold text-primary">PHP + MySQL บน XAMPP</span>
+            (PHP 8.2, MySQL 8, XAMPP).
+          </p>
+        </div>
+      </div>
+      <!-- Roadmap Timeline Section -->
+      <div class="max-w-5xl mx-auto space-y-24 timeline-track relative">
+        <!-- Phase 0 -->
+        <section class="relative pl-16">
+          <div
+            class="absolute left-0 top-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center z-10 shadow-lg"
+          >
+            <span class="text-white font-headline font-bold">0</span>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-4 flex-wrap">
+              <h2 class="text-3xl font-headline font-bold text-primary">
+                เฟส 0 — การเตรียมสภาพแวดล้อม
+              </h2>
+
+              <span
+                class="bg-tertiary-container text-on-tertiary-container px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                >เริ่มต้น</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Task 1 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-surface-variant"
+            >
+              <div class="flex justify-between items-start mb-4">
+                <span
+                  class="material-symbols-outlined text-primary opacity-40"
+                  data-icon="folder_managed"
+                  >folder_managed</span
+                >
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >/app /config /public</span
+                >
+              </div>
+              <h3 class="text-lg font-bold text-primary mb-2">
+                โครงสร้างโฟลเดอร์ &amp; XAMPP
+              </h3>
+              <p class="text-sm text-on-surface-variant leading-relaxed">
+                จัดเตรียมโครงสร้างหลักของไดเรกทอรี และตรวจสอบให้แน่ใจว่า PHP 8.2
+                พร้อมใช้งานใน XAMPP
+              </p>
+            </div>
+            <!-- Task 2 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 group border border-transparent hover:border-surface-variant"
+            >
+              <div class="flex justify-between items-start mb-4">
+                <span
+                  class="material-symbols-outlined text-primary opacity-40"
+                  data-icon="database"
+                  >database</span
+                >
+              </div>
+              <h3 class="text-lg font-bold text-primary mb-2">
+                นำเข้าฐานข้อมูล &amp; การเชื่อมต่อ
+              </h3>
+              <p class="text-sm text-on-surface-variant leading-relaxed">
+                นำเข้า SQL Schema และเขียนคลาส
+                <code class="bg-surface-container px-1">Database.php</code> และ
+                <code class="bg-surface-container px-1">config.php</code>
+                สำหรับการเชื่อมต่อแบบ Singleton
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- Phase 1 -->
+        <section class="relative pl-16">
+          <div
+            class="absolute left-0 top-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center z-10 shadow-lg"
+          >
+            <span class="text-white font-headline font-bold">1</span>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-4 flex-wrap">
+              <h2 class="text-3xl font-headline font-bold text-primary">
+                เฟส 1 — ระบบยืนยันตัวตนและสิทธิ์
+              </h2>
+
+              <span
+                class="bg-primary-container text-on-primary-container px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                >ฟีเจอร์หลัก</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-surface-variant"
+            >
+              <h3 class="text-lg font-bold text-primary mb-2">
+                Middleware สำหรับ Login / Logout
+              </h3>
+              <p class="text-sm text-on-surface-variant mb-4">
+                จัดการเซสชันให้ปลอดภัยและวางระบบการเปลี่ยนเส้นทาง (Redirection
+                logic)
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >Auth.php</span
+                >
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >Session.php</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-surface-variant"
+            >
+              <h3 class="text-lg font-bold text-primary mb-2">ระบบ RBAC</h3>
+              <p class="text-sm text-on-surface-variant mb-4">
+                พัฒนาฟังก์ชัน
+                <code class="text-primary font-bold">can()</code>
+                เพื่อกำหนดสิทธิ์การเข้าถึงตามบทบาทของผู้ใช้งาน
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >Permissions.php</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Phase 2 -->
+        <section class="relative pl-16">
+          <div
+            class="absolute left-0 top-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center z-10 shadow-lg"
+          >
+            <span class="text-white font-headline font-bold">2</span>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-4 flex-wrap">
+              <h2 class="text-3xl font-headline font-bold text-primary">
+                เฟส 2 — ข้อมูลหลัก (Master Data)
+              </h2>
+
+              <span
+                class="bg-secondary-container text-on-secondary-container px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                >ข้อมูลพื้นฐาน</span
+              >
+            </div>
+          </div>
+          <div class="bento-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+              class="md:col-span-2 bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm"
+            >
+              <h3 class="text-lg font-bold text-primary mb-2">
+                การจัดการข้อมูล CRUD
+              </h3>
+              <p class="text-sm text-on-surface-variant mb-4">
+                พัฒนาส่วนติดต่อผู้ใช้งานมาตรฐานสำหรับ จัดการข้อมูลผู้ใช้, แผนก,
+                รถยนต์, คนขับ และทรัพยากรต่างๆ
+              </p>
+              <div class="flex items-center gap-2">
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >UserController.php</span
+                >
+                <span
+                  class="bg-surface-container text-[10px] px-2 py-0.5 rounded font-mono"
+                  >ResourceController.php</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-center items-center text-center border-dashed border-2 border-outline-variant"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary-container mb-2"
+                data-icon="business"
+                >business</span
+              >
+              <h3 class="text-sm font-bold uppercase tracking-tighter">
+                ข้อมูลบริษัท
+              </h3>
+              <p class="text-xs text-on-surface-variant mt-1">
+                โลโก้, ข้อมูลติดต่อ, ตั้งค่าองค์กร
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- Phase 3 - Focused Spotlight -->
+        <section class="relative pl-16">
+          <div
+            class="absolute left-0 top-0 w-12 h-12 bg-primary-container rounded-full flex items-center justify-center z-10 shadow-lg"
+          >
+            <span class="text-white font-headline font-bold">3</span>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-4 flex-wrap">
+              <h2 class="text-3xl font-headline font-bold text-primary">
+                เฟส 3 — ฟีเจอร์หลัก (ระบบจอง)
+              </h2>
+
+              <span
+                class="bg-error-container text-on-error-container px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                >สำคัญมาก</span
+              >
+            </div>
+          </div>
+          <div
+            class="glass-effect p-8 rounded-2xl border border-white/40 shadow-2xl space-y-8"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h4
+                  class="text-sm font-bold text-primary uppercase tracking-widest mb-4 flex items-center gap-2"
+                >
+                  <span class="w-2 h-2 rounded-full bg-error"></span>
+                  กระบวนการจอง (Workflow)
+                </h4>
+                <ul class="space-y-3">
+                  <li class="flex items-center gap-3 text-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary"
+                      data-icon="check_circle"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >check_circle</span
+                    >
+                    แบบฟอร์มจองรถและทรัพยากร
+                  </li>
+                  <li class="flex items-center gap-3 text-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary"
+                      data-icon="check_circle"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >check_circle</span
+                    >
+                    ระบบการอนุมัติ / ปฏิเสธการจอง
+                  </li>
+                  <li class="flex items-center gap-3 text-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary"
+                      data-icon="check_circle"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >check_circle</span
+                    >
+                    การบันทึกเลขไมล์หลังการเดินทาง
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4
+                  class="text-sm font-bold text-primary uppercase tracking-widest mb-4 flex items-center gap-2"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-primary-container"
+                  ></span>
+                  ระบบการแจ้งเตือน
+                </h4>
+                <p class="text-sm text-on-surface-variant mb-4">
+                  การแจ้งเตือนภายในระบบอัตโนมัติสำหรับการจองที่รออนุมัติและการยืนยันการจอง
+                </p>
+                <div
+                  class="bg-surface-container p-3 rounded-lg flex items-center gap-3"
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    data-icon="mail"
+                  ></span>
+                  <span class="text-xs font-mono">NotificationService.php</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Phase 4 & 5 Combined Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Phase 4 -->
+          <section class="relative pl-16">
+            <div
+              class="absolute left-0 top-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center z-10 shadow-md"
+            >
+              <span class="text-white font-headline font-bold">4</span>
+            </div>
+            <div class="mb-6">
+              <h2 class="text-2xl font-headline font-bold text-primary">
+                เฟส 4 — สรุปข้อมูลและรายงาน
+              </h2>
+            </div>
+            <div class="space-y-4">
+              <div
+                class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <h3 class="font-bold text-primary">ปฏิทิน &amp; แดชบอร์ด</h3>
+                <p class="text-xs text-on-surface-variant">
+                  แสดงสถานะการใช้งานรถและทรัพยากรแบบรูปภาพ
+                </p>
+              </div>
+              <div
+                class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <h3 class="font-bold text-primary">การพิมพ์รายงาน</h3>
+                <p class="text-xs text-on-surface-variant">
+                  การรวม TCPDF / Dompdf เพื่อสร้างไฟล์รายงานการจอง
+                </p>
+              </div>
+            </div>
+          </section>
+          <!-- Phase 5 -->
+          <section class="relative pl-16">
+            <div
+              class="absolute left-0 top-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center z-10 shadow-md"
+            >
+              <span class="text-white font-headline font-bold">5</span>
+            </div>
+            <div class="mb-6">
+              <h2 class="text-2xl font-headline font-bold text-primary">
+                เฟส 5 — ปรับแต่งและส่งมอบ
+              </h2>
+            </div>
+            <div
+              class="bg-primary-container text-white p-6 rounded-2xl shadow-xl"
+            >
+              <h3 class="font-bold mb-4">กลยุทธ์การเปิดตัวระบบ</h3>
+              <ul class="text-xs space-y-2 opacity-80">
+                <li>• ตรวจสอบความปลอดภัย (SQL Injection)</li>
+                <li>• ระบบบันทึกกิจกรรมการใช้งาน (Activity Logs)</li>
+                <li>• แผนการสำรองข้อมูลและกลยุทธ์การใช้งานจริง</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- Tech Stack Section -->
+      <section
+        class="max-w-5xl mx-auto mt-32 pt-16 border-t border-outline-variant/30"
+      >
+        <h3
+          class="text-center font-headline font-bold text-primary uppercase tracking-[0.2em] mb-12"
+        >
+          เทคโนโลยีที่ใช้
+        </h3>
+        <div
+          class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+        >
+          <div class="flex flex-col items-center gap-3">
+            <img
+              class="h-12 w-auto"
+              data-alt="Official PHP programming language logo with its iconic blue elephant or stylized text"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOUtT_5ebSuYHa-0rlomqV2tHNrJhHFHRsmZUhiOvQR63HKa8QajgoU3lL9UYXHy2U6wBFT6XQDTKfaWe9DUihdnevZuam5fFZSrs0X1C-Szo8Emqo-zJBVcR0JdbArGebMLENhIvOi1MHi2sqagY9fCcRzzCFyLPIz5jB6wAD30vX86GCZXQHnFNuwkeYQeJ1uZszSk9tmMb6FaWe3OYeLJROC2h2ERYBoPskoRH9XbkIU2eb0vPPzD-3i8CFzPxZSF6wlnm2d56D"
+            />
+            <span class="text-[10px] font-bold uppercase">PHP 8.2</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <img
+              class="h-12 w-auto"
+              data-alt="Official MySQL database logo with a stylized dolphin jumping over the word"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcjZBS79PgW1vWiaIbto9EWOXDUOueqQKnAjm725gdMEwkZFuYlvrKlcKEidRb-XbAw9CNk6KRdnro_adynmHpNlLPKYMuwWVjIlFgSdwrG9SJMczV1vvd96Ac84xXxPM4pKUDTCl26cZPfp1KA3d4IiT_M9GbNhStiecsikW_-hoNMJ9YKHEzgPKs724YQUKd-xGvm1r8_h1APufSkF9sUGTGK7ezSUJjcWVA0uYC_y6nt7G6MMvvWZ6yCyMHEPIxjEPeEDMVW0-a"
+            />
+            <span class="text-[10px] font-bold uppercase">MySQL 8</span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <img
+              class="h-12 w-auto"
+              data-alt="XAMPP logo showing the orange four-quadrant symbol"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuwKx0G_cN2JQdyqLT5OEfKJYNMuIwDjIMgbtMfDlygcgLgIS0S6E95l8J3auSQywzk2Dsbkx8JOdGgOdiXowbFVE4U1jmudLsSKFj-ozCsQXfem8t-w74-tqGTkn_txEsWUZq9yYZhD4VHLvAC2F6L2rj2dugk0ac2cxuRfd4hKRyAOUxVvOBiQjUn-gXwsarre9P_fLZITCDLDU_gp5AmiHyCz3p6ggOOmhCh8KRUoVgKqZVTcY-cOJT5MxgMdTovwePW2d-uyzd"
+            />
+            <span class="text-[10px] font-bold uppercase">XAMPP</span>
+          </div>
+          <!-- Footer -->
+          <footer
+            class="w-full py-6 mt-auto bg-[#031632] dark:bg-black text-white flex flex-col items-center justify-center gap-2 shadow-inner"
+          >
+            <p
+              class="font-['Inter'] text-xs tracking-widest uppercase text-center px-4"
+            >
+              ORBS | Organization Resource Booking System
+            </p>
+            <div class="flex gap-6 mt-2">
+              <a
+                class="text-slate-400 hover:text-white transition-colors text-[10px] uppercase tracking-wider"
+                href="index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                >System Overview</a
+              >
+              <a
+                class="text-slate-400 hover:text-white transition-colors text-[10px] uppercase tracking-wider"
+                href="ORBS_Flow_v3.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                >ORBS Flow</a
+              >
+              <a
+                class="text-slate-400 hover:text-white transition-colors text-[10px] uppercase tracking-wider"
+                href="http://www.maryanne.co.th/th/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Support By</a
+              >
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+      class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-outline-variant/20 flex justify-around items-center py-3 z-50"
+    >
+      <a
+        class="flex flex-col items-center gap-1 text-primary"
+        href="orbs_roadmap.html"
+      >
+        <span
+          class="material-symbols-outlined"
+          data-icon="timeline"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+        ></span>
+        <span class="text-[10px] font-bold uppercase">Roadmap</span>
+      </a>
+      <a
+        class="flex flex-col items-center gap-1 text-slate-400"
+        href="index.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="material-symbols-outlined" data-icon="leaderboard"></span>
+        <span class="text-[10px] font-bold uppercase">System Overview</span>
+      </a>
+      <a
+        class="flex flex-col items-center gap-1 text-slate-400"
+        href="ORBS_Flow_v3.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="material-symbols-outlined" data-icon="inventory_2"></span>
+        <span class="text-[10px] font-bold uppercase">ORBS Flow</span>
+      </a>
+      <a
+        class="flex flex-col items-center gap-1 text-slate-400"
+        href="http://www.maryanne.co.th/th/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="material-symbols-outlined" data-icon="settings"></span>
+        <span class="text-[10px] font-bold uppercase">Support By</span>
+      </a>
+    </nav>
+  </body>
+</html>

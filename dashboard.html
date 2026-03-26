@@ -1,0 +1,844 @@
+<!doctype html>
+<html class="light" lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <title>ORBS — Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#434654",
+              secondary: "#565e74",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              outline: "#737686",
+              surface: "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              primary: "#003fb1",
+              "outline-variant": "#c3c5d7",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#c9e6ff",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00174d",
+              "secondary-container": "#dae2fd",
+              background: "#f7f9fb",
+              "on-tertiary-container": "#bee2ff",
+              "surface-container": "#eceef0",
+              "primary-container": "#1a56db",
+              "surface-bright": "#f7f9fb",
+              "on-background": "#191c1e",
+              error: "#ba1a1a",
+              "on-primary-container": "#d4dcff",
+              "primary-fixed": "#dbe1ff",
+              tertiary: "#004f72",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#dae2fd",
+              "tertiary-container": "#006895",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #f7f9fb;
+      }
+      h1,
+      h2,
+      h3,
+      .font-headline {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .notif-panel {
+        display: none;
+        animation: fadeDown 0.2s ease;
+      }
+      .notif-panel.open {
+        display: block;
+      }
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .stat-card:hover {
+        transform: translateY(-2px);
+      }
+      .stat-card {
+        transition: all 0.25s ease;
+      }
+      /* ── Mobile Sidebar ── */
+      #sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 45;
+      }
+      #sidebar-overlay.open { display: block; }
+      @media (max-width: 767px) {
+        #app-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+        #app-sidebar.open {
+          transform: translateX(0);
+        }
+      }
+
+    </style>
+  </head>
+  <body class="text-on-surface">
+    <!-- ── Sidebar ── -->
+    <aside id="app-sidebar" class="h-screen w-72 left-0 top-0 fixed bg-surface-container flex flex-col p-6 gap-8 z-50"
+    >
+      <div class="flex items-center gap-3 px-4">
+        <div
+          class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary shadow-lg"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >widgets</span
+          >
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-on-surface tracking-tight">ORBS</h1>
+          <p
+            class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold"
+          >
+            Enterprise Booking
+          </p>
+        </div>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1" id="sidebar-nav">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="dashboard.html"
+          data-page="dashboard.html"
+          ><span class="material-symbols-outlined">dashboard</span
+          ><span>Dashboard</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="booking.html"
+          data-page="booking.html"
+          ><span class="material-symbols-outlined">directions_car</span
+          ><span>Booking Cars</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="resource.html"
+          data-page="resource.html"
+          ><span class="material-symbols-outlined">meeting_room</span
+          ><span>Resource</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="report.html"
+          data-page="report.html"
+          ><span class="material-symbols-outlined">analytics</span
+          ><span>Reports</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="approval.html"
+          data-page="approval.html"
+          ><span class="material-symbols-outlined">task</span
+          ><span>Approval</span
+          ><span
+            class="ml-auto text-[10px] font-bold bg-error text-white px-2 py-0.5 rounded-full"
+            id="badge-count"
+            >4</span
+          ></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="admin.html"
+          data-page="admin.html"
+          ><span class="material-symbols-outlined">admin_panel_settings</span
+          ><span>Admin</span></a
+        >
+      </nav>
+      <div class="flex flex-col gap-1 border-t border-outline-variant/10 pt-6">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="#"
+          ><span class="material-symbols-outlined">settings</span
+          ><span>Settings</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="index.html"
+          ><span class="material-symbols-outlined">logout</span
+          ><span>Logout</span></a
+        >
+      </div>
+    </aside>
+
+    <!-- ── Top Bar ── -->
+    <header
+      class="fixed top-0 right-0 left-0 md:left-72 z-40 flex justify-between items-center h-20 px-4 md:px-12 bg-surface/70 backdrop-blur-3xl shadow-[0_40px_80px_rgba(26,86,219,0.06)]"
+    >
+      <button class="md:hidden p-2 rounded-full hover:bg-surface-container-low mr-2" onclick="toggleSidebar()" aria-label="เมนู"><span class="material-symbols-outlined">menu</span></button>
+      <div class="relative w-full max-w-md">
+        <span
+          class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+          >search</span
+        >
+        <input
+          class="w-full pl-12 pr-4 py-2.5 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-sm"
+          placeholder="ค้นหา..."
+          type="text"
+        />
+      </div>
+      <div class="flex items-center gap-6">
+        <!-- Notification Bell -->
+        <div class="relative">
+          <button
+            onclick="toggleNotif()"
+            class="relative p-2 text-on-surface-variant hover:bg-surface-bright rounded-full transition-all"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+            <span
+              class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"
+            ></span>
+          </button>
+          <!-- Notification Panel -->
+          <div
+            id="notif-panel"
+            class="notif-panel absolute right-0 top-14 w-80 bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant/10 overflow-hidden z-50"
+          >
+            <div
+              class="px-5 py-4 border-b border-outline-variant/10 flex justify-between items-center"
+            >
+              <span class="font-bold text-sm">การแจ้งเตือน</span>
+              <span
+                class="text-[10px] font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded-full"
+                >4 ใหม่</span
+              >
+            </div>
+            <div
+              class="divide-y divide-outline-variant/10 max-h-72 overflow-y-auto"
+            >
+              <div
+                class="px-5 py-4 hover:bg-surface-container-low cursor-pointer"
+              >
+                <p class="text-xs font-bold text-on-surface">
+                  CAR-2026-0005 รออนุมัติ
+                </p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">
+                  สมศักดิ์ ขอจองรถไป นิคมอุตสาหกรรม
+                </p>
+                <p class="text-[10px] text-outline mt-1">5 นาทีที่แล้ว</p>
+              </div>
+              <div
+                class="px-5 py-4 hover:bg-surface-container-low cursor-pointer"
+              >
+                <p class="text-xs font-bold text-on-surface">
+                  ห้อง A อนุมัติแล้ว
+                </p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">
+                  คำขอ RES-2026-0012 ได้รับการอนุมัติ
+                </p>
+                <p class="text-[10px] text-outline mt-1">30 นาทีที่แล้ว</p>
+              </div>
+              <div
+                class="px-5 py-4 hover:bg-surface-container-low cursor-pointer"
+              >
+                <p class="text-xs font-bold text-error">แจ้งเตือนซ่อมบำรุง</p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">
+                  Toyota Alphard (กท-5678) ต้องเข้าซ่อม
+                </p>
+                <p class="text-[10px] text-outline mt-1">2 ชั่วโมงที่แล้ว</p>
+              </div>
+              <div
+                class="px-5 py-4 hover:bg-surface-container-low cursor-pointer"
+              >
+                <p class="text-xs font-bold text-on-surface">
+                  รายงานประจำสัปดาห์
+                </p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">
+                  รายงาน Q1 W3 พร้อมดาวน์โหลดแล้ว
+                </p>
+                <p class="text-[10px] text-outline mt-1">4 ชั่วโมงที่แล้ว</p>
+              </div>
+            </div>
+            <div class="px-5 py-3 border-t border-outline-variant/10">
+              <a href="#" class="text-xs font-bold text-primary">ดูทั้งหมด →</a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex items-center gap-3 pl-4 border-l border-outline-variant/20"
+        >
+          <div class="text-right">
+            <p class="text-sm font-bold text-on-surface leading-none">
+              Kitsamarat Ongsatta
+            </p>
+            <p class="text-[10px] text-on-surface-variant font-medium mt-0.5">
+              Administrator
+            </p>
+          </div>
+          <div
+            class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm ring-2 ring-surface-container"
+          >
+            K
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main ── -->
+    <main class="md:ml-72 min-h-screen pb-20 md:pb-0">
+      <div class="pt-28 px-4 md:px-12 pb-12">
+        <!-- Welcome -->
+        <div class="flex justify-between items-end mb-10">
+          <div>
+            <h2
+              class="text-4xl font-extrabold tracking-tight text-on-surface mb-2"
+            >
+              ยินดีต้อนรับ, Kitsanarat
+            </h2>
+            <p class="text-on-surface-variant font-medium">
+              มี
+              <span class="text-error font-bold">4 คำขออนุมัติ</span>
+              รอการพิจารณาจากคุณ
+            </p>
+          </div>
+          <a
+            href="booking.html"
+            class="bg-primary hover:bg-primary/90 text-on-primary px-8 py-3.5 rounded-full font-semibold shadow-[0_12px_24px_rgba(0,63,177,0.25)] flex items-center gap-2 transition-all active:scale-95"
+          >
+            <span
+              class="material-symbols-outlined"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >add_circle</span
+            >
+            จองรถด่วน
+          </a>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <div
+            class="stat-card col-span-1 bg-surface-container-lowest p-8 rounded-xl shadow-sm"
+          >
+            <p
+              class="text-on-surface-variant text-sm font-semibold mb-4 flex items-center gap-2"
+            >
+              <span class="w-2 h-2 rounded-full bg-primary"></span>การจองทั้งหมด
+            </p>
+            <div class="flex items-end justify-between">
+              <h3 class="text-4xl font-extrabold text-on-surface leading-none">
+                128
+              </h3>
+              <span
+                class="text-tertiary font-bold text-xs bg-tertiary-fixed px-2 py-1 rounded-md"
+                >+12%</span
+              >
+            </div>
+            <p
+              class="text-[11px] text-on-surface-variant/60 mt-4 uppercase tracking-wider font-bold italic"
+            >
+              ภาพรวมเดือนนี้
+            </p>
+          </div>
+          <div
+            class="stat-card col-span-1 bg-surface-container-lowest p-8 rounded-xl shadow-sm"
+          >
+            <p
+              class="text-on-surface-variant text-sm font-semibold mb-4 flex items-center gap-2"
+            >
+              <span class="w-2 h-2 rounded-full bg-tertiary"></span>รถว่าง
+            </p>
+            <h3 class="text-4xl font-extrabold text-on-surface">14</h3>
+            <p class="text-xs text-on-surface-variant mt-2">
+              จาก 20 คันทั้งหมด
+            </p>
+          </div>
+          <div
+            class="stat-card col-span-1 bg-surface-container-lowest p-8 rounded-xl shadow-sm"
+          >
+            <p
+              class="text-on-surface-variant text-sm font-semibold mb-4 flex items-center gap-2"
+            >
+              <span class="w-2 h-2 rounded-full bg-secondary"></span
+              >ห้องประชุมว่าง
+            </p>
+            <h3 class="text-4xl font-extrabold text-on-surface">6</h3>
+            <p class="text-xs text-on-surface-variant mt-2">ใน 3 อาคาร</p>
+          </div>
+          <div
+            class="stat-card col-span-1 bg-primary text-on-primary p-8 rounded-xl shadow-[0_20px_40px_rgba(0,63,177,0.15)] cursor-pointer"
+            onclick="window.location.href = 'approval.html'"
+          >
+            <p
+              class="text-on-primary/70 text-sm font-semibold mb-4 flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-sm"
+                >pending_actions</span
+              >รออนุมัติ
+            </p>
+            <h3 class="text-4xl font-extrabold text-on-primary">04</h3>
+            <div class="mt-4 flex items-center gap-2">
+              <span
+                class="text-[10px] bg-on-primary/20 px-2 py-0.5 rounded-full"
+                >คลิกเพื่อตรวจสอบ →</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <!-- Left 8 cols -->
+          <div class="col-span-1 lg:col-span-8 space-y-10">
+            <!-- Quick Actions — all wired -->
+            <section>
+              <h3 class="text-xl font-bold text-on-surface tracking-tight mb-6">
+                Quick Actions
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <a
+                  href="booking.html"
+                  class="bg-surface-container-lowest p-6 rounded-xl hover:bg-primary group transition-all duration-300 flex flex-col items-center text-center gap-4"
+                >
+                  <div
+                    class="w-14 h-14 bg-primary-fixed text-primary rounded-full flex items-center justify-center group-hover:bg-on-primary group-hover:text-primary transition-all"
+                  >
+                    <span
+                      class="material-symbols-outlined"
+                      style="font-variation-settings: &quot;opsz&quot; 32"
+                      >directions_car</span
+                    >
+                  </div>
+                  <span
+                    class="font-bold text-on-surface group-hover:text-on-primary"
+                    >จองรถ</span
+                  >
+                </a>
+                <a
+                  href="resource.html"
+                  class="bg-surface-container-lowest p-6 rounded-xl hover:bg-primary group transition-all duration-300 flex flex-col items-center text-center gap-4"
+                >
+                  <div
+                    class="w-14 h-14 bg-tertiary-fixed text-tertiary rounded-full flex items-center justify-center group-hover:bg-on-primary group-hover:text-tertiary transition-all"
+                  >
+                    <span
+                      class="material-symbols-outlined"
+                      style="font-variation-settings: &quot;opsz&quot; 32"
+                      >meeting_room</span
+                    >
+                  </div>
+                  <span
+                    class="font-bold text-on-surface group-hover:text-on-primary"
+                    >จองห้อง</span
+                  >
+                </a>
+                <a
+                  href="approval.html"
+                  class="bg-surface-container-lowest p-6 rounded-xl hover:bg-primary group transition-all duration-300 flex flex-col items-center text-center gap-4"
+                >
+                  <div
+                    class="w-14 h-14 bg-secondary-fixed text-secondary rounded-full flex items-center justify-center group-hover:bg-on-primary group-hover:text-secondary transition-all"
+                  >
+                    <span
+                      class="material-symbols-outlined"
+                      style="font-variation-settings: &quot;opsz&quot; 32"
+                      >task</span
+                    >
+                  </div>
+                  <span
+                    class="font-bold text-on-surface group-hover:text-on-primary"
+                    >อนุมัติ</span
+                  >
+                </a>
+              </div>
+            </section>
+
+            <!-- Active + Donut -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div
+                class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm"
+              >
+                <div
+                  class="px-6 py-4 flex items-center justify-between border-b border-surface-container"
+                >
+                  <h4 class="font-bold text-on-surface">กำลังใช้งาน</h4>
+                  <span
+                    class="text-[10px] font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded-full uppercase"
+                    >Live</span
+                  >
+                </div>
+                <div class="p-6 space-y-6">
+                  <div class="flex items-start gap-4">
+                    <div
+                      class="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-primary"
+                        >airport_shuttle</span
+                      >
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-on-surface-variant"
+                          >Toyota Alphard (กท-5678)</span
+                        >
+                        <span class="text-xs font-medium text-tertiary"
+                          >02:15 เหลือ</span
+                        >
+                      </div>
+                      <div
+                        class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden"
+                      >
+                        <div
+                          class="h-full bg-primary rounded-full"
+                          style="width: 65%"
+                        ></div>
+                      </div>
+                      <p
+                        class="text-[11px] text-on-surface-variant mt-2 font-medium"
+                      >
+                        ปลายทาง: นิคมอุตสาหกรรมมาบตาพุด
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-4">
+                    <div
+                      class="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-tertiary"
+                        >meeting_room</span
+                      >
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-on-surface-variant"
+                          >ห้องประชุม A (ชั้น 4)</span
+                        >
+                        <span class="text-xs font-medium text-tertiary"
+                          >00:45 เหลือ</span
+                        >
+                      </div>
+                      <div
+                        class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden"
+                      >
+                        <div
+                          class="h-full bg-tertiary rounded-full"
+                          style="width: 85%"
+                        ></div>
+                      </div>
+                      <p
+                        class="text-[11px] text-on-surface-variant mt-2 font-medium"
+                      >
+                        ประชุม: ทบทวนแผนไตรมาส 1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Donut -->
+              <div
+                class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col items-center justify-center"
+              >
+                <h4 class="font-bold text-on-surface self-start mb-6">
+                  การใช้ทรัพยากร
+                </h4>
+                <div class="relative w-40 h-40">
+                  <svg
+                    class="w-full h-full transform -rotate-90"
+                    viewBox="0 0 100 100"
+                  >
+                    <circle
+                      cx="50"
+                      cy="50"
+                      fill="none"
+                      r="40"
+                      stroke="#eceef0"
+                      stroke-width="12"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      fill="none"
+                      r="40"
+                      stroke="#003fb1"
+                      stroke-dasharray="176,251.2"
+                      stroke-width="12"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      fill="none"
+                      r="40"
+                      stroke="#004f72"
+                      stroke-dasharray="75,251.2"
+                      stroke-dashoffset="-176"
+                      stroke-width="12"
+                    />
+                  </svg>
+                  <div
+                    class="absolute inset-0 flex flex-col items-center justify-center"
+                  >
+                    <span class="text-2xl font-black text-on-surface">82%</span>
+                    <span
+                      class="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest"
+                      >ใช้งาน</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-6 flex gap-4 w-full justify-center">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+                    <span class="text-[11px] font-bold text-on-surface-variant"
+                      >รถ</span
+                    >
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-tertiary"></div>
+                    <span class="text-[11px] font-bold text-on-surface-variant"
+                      >ห้อง</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 4 cols: Activity -->
+          <div class="col-span-1 lg:col-span-4">
+            <section class="bg-surface-container-low rounded-xl p-8 h-full">
+              <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-bold text-on-surface tracking-tight">
+                  กิจกรรมล่าสุด
+                </h3>
+                <a
+                  href="report.html"
+                  class="text-xs font-bold text-primary hover:underline"
+                  >ดูทั้งหมด</a
+                >
+              </div>
+              <div class="space-y-8">
+                <div class="relative pl-8">
+                  <div
+                    class="absolute left-0 top-1 w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,79,114,0.4)]"
+                  ></div>
+                  <div
+                    class="absolute left-[3px] top-4 w-[1px] h-12 bg-outline-variant/30"
+                  ></div>
+                  <p class="text-xs font-bold text-on-surface">
+                    CAR-2026-0001 อนุมัติแล้ว
+                  </p>
+                  <p class="text-[11px] text-on-surface-variant mt-1">
+                    อนันต์ วงษ์ ขอรถไปเยี่ยมไซต์งาน
+                  </p>
+                  <p
+                    class="text-[10px] text-on-surface-variant/50 mt-2 font-medium italic"
+                  >
+                    2 นาทีที่แล้ว
+                  </p>
+                </div>
+                <div class="relative pl-8">
+                  <div
+                    class="absolute left-0 top-1 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(0,63,177,0.4)]"
+                  ></div>
+                  <div
+                    class="absolute left-[3px] top-4 w-[1px] h-12 bg-outline-variant/30"
+                  ></div>
+                  <p class="text-xs font-bold text-on-surface">
+                    จองห้องประชุม B ใหม่
+                  </p>
+                  <p class="text-[11px] text-on-surface-variant mt-1">
+                    ประชุมโปรเจกต์ "Zeus" พรุ่งนี้
+                  </p>
+                  <p
+                    class="text-[10px] text-on-surface-variant/50 mt-2 font-medium italic"
+                  >
+                    45 นาทีที่แล้ว
+                  </p>
+                </div>
+                <div class="relative pl-8">
+                  <div
+                    class="absolute left-0 top-1 w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(186,26,26,0.4)]"
+                  ></div>
+                  <div
+                    class="absolute left-[3px] top-4 w-[1px] h-12 bg-outline-variant/30"
+                  ></div>
+                  <p class="text-xs font-bold text-on-surface">
+                    แจ้งซ่อม: CAR-2025-0042
+                  </p>
+                  <p class="text-[11px] text-on-surface-variant mt-1">
+                    รถตู้แจ้งปัญหาแอร์เสีย
+                  </p>
+                  <p
+                    class="text-[10px] text-on-surface-variant/50 mt-2 font-medium italic"
+                  >
+                    2 ชั่วโมงที่แล้ว
+                  </p>
+                </div>
+                <div class="relative pl-8">
+                  <div
+                    class="absolute left-0 top-1 w-2 h-2 rounded-full bg-secondary"
+                  ></div>
+                  <p class="text-xs font-bold text-on-surface">
+                    สร้างรายงานประจำสัปดาห์
+                  </p>
+                  <p class="text-[11px] text-on-surface-variant mt-1">
+                    รายงาน Q1 W3 พร้อมดาวน์โหลดแล้ว
+                  </p>
+                  <p
+                    class="text-[10px] text-on-surface-variant/50 mt-2 font-medium italic"
+                  >
+                    4 ชั่วโมงที่แล้ว
+                  </p>
+                </div>
+              </div>
+              <div
+                class="mt-12 bg-primary-container p-6 rounded-xl relative overflow-hidden group"
+              >
+                <div class="relative z-10">
+                  <h5 class="text-on-primary-container font-bold mb-2">
+                    เคล็ดลับผู้จัดการ
+                  </h5>
+                  <p
+                    class="text-on-primary-container/80 text-[11px] leading-relaxed"
+                  >
+                    ใช้ฟีเจอร์ "Bulk Approval" เพื่ออนุมัติหลายคำขอพร้อมกัน
+                    ประหยัดเวลาได้มาก
+                  </p>
+                  <a
+                    href="approval.html"
+                    class="mt-4 inline-block text-[10px] font-black uppercase tracking-widest text-on-primary-container bg-surface-container-lowest/20 px-4 py-2 rounded-full hover:bg-white hover:text-primary transition-all"
+                    >ไปหน้าอนุมัติ →</a
+                  >
+                </div>
+                <span
+                  class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl text-on-primary-container opacity-10 group-hover:scale-110 transition-transform duration-500"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >rocket_launch</span
+                >
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function setNav() {
+        const page = location.pathname.split("/").pop() || "dashboard.html";
+        document.querySelectorAll("#sidebar-nav .nav-link").forEach((l) => {
+          if (l.dataset.page === page) {
+            l.classList.add(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.remove(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          } else {
+            l.classList.remove(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.add(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          }
+        });
+      })();
+      function toggleNotif() {
+        document.getElementById("notif-panel").classList.toggle("open");
+      }
+      document.addEventListener("click", (e) => {
+        const p = document.getElementById("notif-panel");
+        if (
+          !e.target.closest("#notif-panel") &&
+          !e.target.closest('[onclick="toggleNotif()"]')
+        )
+          p.classList.remove("open");
+      });
+    </script>
+  
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex justify-around items-center h-16 px-2 z-50 border-t border-outline-variant/10">
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="dashboard.html">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[9px] font-bold">หน้าหลัก</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="booking.html">
+        <span class="material-symbols-outlined text-[22px]">directions_car</span>
+        <span class="text-[9px] font-bold">จองรถ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="resource.html">
+        <span class="material-symbols-outlined text-[22px]">meeting_room</span>
+        <span class="text-[9px] font-bold">ห้อง</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="approval.html">
+        <span class="material-symbols-outlined text-[22px]">task</span>
+        <span class="text-[9px] font-bold">อนุมัติ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="admin.html">
+        <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+        <span class="text-[9px] font-bold">Admin</span>
+      </a>
+    </nav>
+
+  <script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('app-sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+    document.getElementById('sidebar-overlay').addEventListener('click', function() {
+      document.getElementById('app-sidebar').classList.remove('open');
+      this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,941 @@
+<!doctype html>
+<html class="light" lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <title>ORBS — ทรัพยากร</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#434654",
+              secondary: "#565e74",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              outline: "#737686",
+              surface: "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              primary: "#003fb1",
+              "outline-variant": "#c3c5d7",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#c9e6ff",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00174d",
+              "secondary-container": "#dae2fd",
+              background: "#f7f9fb",
+              "on-tertiary-container": "#bee2ff",
+              "surface-container": "#eceef0",
+              "primary-container": "#1a56db",
+              "surface-bright": "#f7f9fb",
+              "on-background": "#191c1e",
+              error: "#ba1a1a",
+              "on-primary-container": "#d4dcff",
+              "primary-fixed": "#dbe1ff",
+              tertiary: "#004f72",
+              "on-surface": "#191c1e",
+              "secondary-fixed": "#dae2fd",
+              "tertiary-container": "#006895",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-bg.open {
+        display: flex;
+        animation: fadeIn 0.2s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .modal-box {
+        animation: slideUp 0.25s ease;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tab-btn.active {
+        background: #003fb1;
+        color: #fff;
+        font-weight: 700;
+      }
+      .tab-btn {
+        transition: all 0.2s;
+      }
+      tr.hidden-row {
+        display: none;
+      }
+
+      /* ── Mobile Sidebar ── */
+      #sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 45;
+      }
+      #sidebar-overlay.open { display: block; }
+      @media (max-width: 767px) {
+        #app-sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+        #app-sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface min-h-screen">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="h-screen w-72 left-0 top-0 fixed bg-surface-container flex flex-col p-6 gap-8 z-50"
+    >
+      <div class="flex items-center gap-3 px-4">
+        <div
+          class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary shadow-lg"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >widgets</span
+          >
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-on-surface tracking-tight">ORBS</h1>
+          <p
+            class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold"
+          >
+            Enterprise Booking
+          </p>
+        </div>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1" id="sidebar-nav">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="dashboard.html"
+          data-page="dashboard.html"
+          ><span class="material-symbols-outlined">dashboard</span
+          ><span>Dashboard</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="booking.html"
+          data-page="booking.html"
+          ><span class="material-symbols-outlined">directions_car</span
+          ><span>Booking Cars</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="resource.html"
+          data-page="resource.html"
+          ><span class="material-symbols-outlined">meeting_room</span
+          ><span>Resource</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="report.html"
+          data-page="report.html"
+          ><span class="material-symbols-outlined">analytics</span
+          ><span>Reports</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="approval.html"
+          data-page="approval.html"
+          ><span class="material-symbols-outlined">task</span
+          ><span>Approval</span
+          ><span
+            class="ml-auto text-[10px] font-bold bg-error text-white px-2 py-0.5 rounded-full"
+            id="badge-count"
+            >4</span
+          ></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors"
+          href="admin.html"
+          data-page="admin.html"
+          ><span class="material-symbols-outlined">admin_panel_settings</span
+          ><span>Admin</span></a
+        >
+      </nav>
+      <div class="flex flex-col gap-1 border-t border-outline-variant/10 pt-6">
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="#"
+          ><span class="material-symbols-outlined">settings</span
+          ><span>Settings</span></a
+        >
+        <a
+          class="nav-link rounded-full flex items-center gap-3 px-4 py-3 transition-colors text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+          href="index.html"
+          ><span class="material-symbols-outlined">logout</span
+          ><span>Logout</span></a
+        >
+      </div>
+    </aside>
+
+    <!-- Top Bar -->
+    <header
+      class="fixed top-0 right-0 left-0 md:left-72 z-40 flex justify-between items-center h-20 px-4 md:px-12 bg-surface/70 backdrop-blur-3xl shadow-[0_40px_80px_rgba(26,86,219,0.06)]"
+    >
+      <button class="md:hidden p-2 rounded-full hover:bg-surface-container-low mr-2" onclick="toggleSidebar()" aria-label="เมนู"><span class="material-symbols-outlined">menu</span></button>
+      <div class="relative w-full max-w-md">
+        <span
+          class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+          >search</span
+        >
+        <input
+          id="search-input"
+          oninput="filterTable()"
+          class="w-full pl-12 pr-4 py-2.5 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-sm"
+          placeholder="ค้นหาทรัพยากร..."
+          type="text"
+        />
+      </div>
+      <div class="flex items-center gap-6">
+        <button
+          class="relative p-2 text-on-surface-variant hover:bg-surface-bright rounded-full transition-all"
+        >
+          <span class="material-symbols-outlined">notifications</span>
+          <span
+            class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"
+          ></span>
+        </button>
+        <div
+          class="flex items-center gap-3 pl-4 border-l border-outline-variant/20"
+        >
+          <div class="text-right">
+            <p class="text-sm font-bold text-on-surface leading-none">
+              Kitsamarat Ongsatta
+            </p>
+            <p class="text-[10px] text-on-surface-variant font-medium mt-0.5">
+              Administrator
+            </p>
+          </div>
+          <div
+            class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm ring-2 ring-surface-container"
+          >
+            K
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="md:ml-72 flex-1 pb-20 md:pb-0">
+      <div class="pt-28 pb-12 px-6 md:px-12">
+        <!-- Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+        >
+          <div>
+            <p
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1"
+            >
+              จัดการทรัพยากร
+            </p>
+            <h1
+              class="text-4xl font-extrabold tracking-tight text-on-surface mb-2"
+            >
+              ทรัพยากรทั้งหมด
+            </h1>
+            <p class="text-on-surface-variant">
+              resources + resource_categories
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <!-- Category Tab Filter -->
+            <div class="flex p-1.5 bg-surface-container rounded-full">
+              <button
+                class="tab-btn active px-5 py-2 rounded-full text-sm"
+                onclick="filterCategory('all', this)"
+              >
+                ทั้งหมด
+              </button>
+              <button
+                class="tab-btn px-5 py-2 rounded-full text-sm text-on-surface-variant"
+                onclick="filterCategory('car', this)"
+              >
+                🚗 รถ
+              </button>
+              <button
+                class="tab-btn px-5 py-2 rounded-full text-sm text-on-surface-variant"
+                onclick="filterCategory('room', this)"
+              >
+                🏢 ห้อง
+              </button>
+              <button
+                class="tab-btn px-5 py-2 rounded-full text-sm text-on-surface-variant"
+                onclick="filterCategory('equip', this)"
+              >
+                🔧 อุปกรณ์
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="flex items-center gap-3 mb-6 flex-wrap">
+          <span
+            class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+            >สถานะ:</span
+          >
+          <button
+            class="status-filter-btn active text-xs font-bold px-4 py-1.5 rounded-full bg-primary text-on-primary transition-all"
+            onclick="filterStatus('all', this)"
+          >
+            ทั้งหมด
+          </button>
+          <button
+            class="status-filter-btn text-xs font-bold px-4 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant transition-all"
+            onclick="filterStatus('available', this)"
+          >
+            ว่าง
+          </button>
+          <button
+            class="status-filter-btn text-xs font-bold px-4 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant transition-all"
+            onclick="filterStatus('in_use', this)"
+          >
+            ใช้งาน
+          </button>
+          <button
+            class="status-filter-btn text-xs font-bold px-4 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant transition-all"
+            onclick="filterStatus('maintenance', this)"
+          >
+            ซ่อมบำรุง
+          </button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid grid-cols-3 gap-6 mb-8">
+          <div
+            class="bg-surface-container-lowest rounded-xl p-6 flex items-center gap-4 shadow-sm"
+          >
+            <div
+              class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-primary"
+                >check_circle</span
+              >
+            </div>
+            <div>
+              <p
+                class="text-2xl font-black text-on-surface"
+                id="stat-available"
+              >
+                6
+              </p>
+              <p class="text-xs text-on-surface-variant font-medium">
+                ว่างพร้อมจอง
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest rounded-xl p-6 flex items-center gap-4 shadow-sm"
+          >
+            <div
+              class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-tertiary"
+                >schedule</span
+              >
+            </div>
+            <div>
+              <p class="text-2xl font-black text-on-surface" id="stat-inuse">
+                3
+              </p>
+              <p class="text-xs text-on-surface-variant font-medium">
+                กำลังใช้งาน
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest rounded-xl p-6 flex items-center gap-4 shadow-sm"
+          >
+            <div
+              class="w-12 h-12 bg-error-container rounded-full flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-error">handyman</span>
+            </div>
+            <div>
+              <p class="text-2xl font-black text-on-surface" id="stat-maint">
+                2
+              </p>
+              <p class="text-xs text-on-surface-variant font-medium">
+                ซ่อมบำรุง
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div
+          class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" id="resource-table">
+              <thead>
+                <tr class="bg-surface-container-low/50">
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant"
+                  >
+                    ทรัพยากร (resource_id)
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant"
+                  >
+                    หมวดหมู่ (category_id)
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant"
+                  >
+                    สถานที่ (location)
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant text-center"
+                  >
+                    ความจุ (capacity)
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant text-center"
+                  >
+                    สถานะ (is_active)
+                  </th>
+                  <th
+                    class="px-6 py-4 text-[11px] font-black uppercase tracking-[0.12em] text-on-surface-variant text-right"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-surface-container-low"
+                id="resource-tbody"
+              >
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="px-6 py-4 bg-surface-container-low/30 flex items-center justify-between"
+          >
+            <p class="text-sm text-on-surface-variant">
+              แสดง
+              <span id="showing-count" class="font-bold text-on-surface"
+                >11</span
+              >
+              รายการ
+            </p>
+            <div class="flex items-center gap-1">
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-high"
+              >
+                <span class="material-symbols-outlined text-sm"
+                  >chevron_left</span
+                >
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-full bg-primary text-on-primary font-bold text-sm"
+              >
+                1
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-high text-on-surface-variant text-sm"
+              >
+                2
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-high"
+              >
+                <span class="material-symbols-outlined text-sm"
+                  >chevron_right</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Booking Modal — resource_bookings fields -->
+    <div class="modal-bg" id="booking-modal" onclick="closeModal(event)">
+      <div
+        class="modal-box bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8"
+      >
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-on-surface" id="modal-title">
+              จองห้องประชุม
+            </h2>
+            <p class="text-xs text-on-surface-variant mt-1" id="modal-sub">
+              กรอกข้อมูลเพื่อส่งคำขอ
+            </p>
+          </div>
+          <button
+            onclick="
+              document.getElementById('booking-modal').classList.remove('open')
+            "
+            class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container-high"
+          >
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <!-- booking_code — auto -->
+          <div
+            class="bg-surface-container-low px-4 py-3 rounded-lg flex items-center gap-2 text-sm"
+          >
+            <span class="material-symbols-outlined text-sm text-outline"
+              >tag</span
+            >
+            <span class="font-mono text-secondary" id="modal-code"
+              >RES-2026-0001</span
+            >
+            <span
+              class="ml-auto text-[10px] bg-tertiary-fixed text-tertiary px-2 py-0.5 rounded-full font-bold"
+              >AUTO</span
+            >
+          </div>
+          <!-- booking_date -->
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >วันที่จอง (booking_date) *</label
+            >
+            <div class="relative">
+              <span
+                class="material-symbols-outlined absolute left-3 top-3 text-outline text-sm"
+                >calendar_today</span
+              >
+              <input
+                type="date"
+                class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-10 pr-4 focus:ring-2 focus:ring-primary text-sm"
+              />
+            </div>
+          </div>
+          <!-- start_time / end_time -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1.5">
+              <label
+                class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+                >เวลาเริ่ม (start_time) *</label
+              >
+              <input
+                type="time"
+                class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label
+                class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+                >เวลาสิ้นสุด (end_time) *</label
+              >
+              <input
+                type="time"
+                class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+              />
+            </div>
+          </div>
+          <!-- purpose -->
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >วัตถุประสงค์ (purpose) *</label
+            >
+            <textarea
+              rows="2"
+              class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm resize-none"
+              placeholder="ระบุวัตถุประสงค์..."
+            ></textarea>
+          </div>
+          <!-- attendee_count -->
+          <div class="flex flex-col gap-1.5">
+            <label
+              class="text-xs font-bold text-on-surface-variant uppercase tracking-widest"
+              >จำนวนผู้เข้าร่วม (attendee_count)</label
+            >
+            <div class="relative">
+              <span
+                class="material-symbols-outlined absolute left-3 top-3 text-outline text-sm"
+                >group</span
+              >
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-10 pr-4 focus:ring-2 focus:ring-primary text-sm"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button
+            onclick="
+              document.getElementById('booking-modal').classList.remove('open')
+            "
+            class="flex-1 py-3 rounded-xl bg-surface-container text-on-surface-variant font-semibold text-sm hover:bg-surface-container-high transition-all"
+          >
+            ยกเลิก
+          </button>
+          <button
+            onclick="submitResourceBooking()"
+            class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+          >
+            ส่งคำขอจอง
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── Data: resources + resource_categories ──
+      const CATEGORIES = {
+        car: "🚗 ยานพาหนะ",
+        room: "🏢 ห้องประชุม",
+        equip: "🔧 อุปกรณ์",
+      };
+      const RESOURCES = [
+        {
+          id: 1,
+          name: "Toyota Alphard",
+          cat: "car",
+          catLabel: "ยานพาหนะ",
+          location: "อาคารจอดรถ B",
+          capacity: 7,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 2,
+          name: "Toyota Camry",
+          cat: "car",
+          catLabel: "ยานพาหนะ",
+          location: "อาคารจอดรถ A",
+          capacity: 4,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 3,
+          name: "Honda CR-V",
+          cat: "car",
+          catLabel: "ยานพาหนะ",
+          location: "อาคารจอดรถ A",
+          capacity: 5,
+          status: "in_use",
+          is_active: 1,
+        },
+        {
+          id: 4,
+          name: "Isuzu D-Max",
+          cat: "car",
+          catLabel: "ยานพาหนะ",
+          location: "อาคารจอดรถ C",
+          capacity: 4,
+          status: "maintenance",
+          is_active: 0,
+        },
+        {
+          id: 5,
+          name: "ห้องประชุม A (ชั้น 4)",
+          cat: "room",
+          catLabel: "ห้องประชุม",
+          location: "อาคาร 1 ชั้น 4",
+          capacity: 20,
+          status: "in_use",
+          is_active: 1,
+        },
+        {
+          id: 6,
+          name: "ห้องประชุม B (ชั้น 4)",
+          cat: "room",
+          catLabel: "ห้องประชุม",
+          location: "อาคาร 1 ชั้น 4",
+          capacity: 12,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 7,
+          name: "ห้องอบรม C (ชั้น 2)",
+          cat: "room",
+          catLabel: "ห้องประชุม",
+          location: "อาคาร 2 ชั้น 2",
+          capacity: 40,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 8,
+          name: "Boardroom (ชั้น 10)",
+          cat: "room",
+          catLabel: "ห้องประชุม",
+          location: "อาคาร 1 ชั้น 10",
+          capacity: 10,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 9,
+          name: "โปรเจกเตอร์ Pro-X",
+          cat: "equip",
+          catLabel: "อุปกรณ์",
+          location: "ห้องเก็บอุปกรณ์",
+          capacity: 1,
+          status: "maintenance",
+          is_active: 0,
+        },
+        {
+          id: 10,
+          name: "ชุด Video Conference",
+          cat: "equip",
+          catLabel: "อุปกรณ์",
+          location: "ห้องเก็บอุปกรณ์",
+          capacity: 1,
+          status: "available",
+          is_active: 1,
+        },
+        {
+          id: 11,
+          name: "ไวท์บอร์ดล้อเลื่อน",
+          cat: "equip",
+          catLabel: "อุปกรณ์",
+          location: "ชั้น 3 ทางเดิน",
+          capacity: 1,
+          status: "in_use",
+          is_active: 1,
+        },
+      ];
+
+      let currentCat = "all",
+        currentStatus = "all",
+        currentSearch = "";
+
+      function statusBadge(s) {
+        if (s === "available")
+          return '<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-tertiary text-[11px] font-bold">ว่าง</span>';
+        if (s === "in_use")
+          return '<span class="px-3 py-1 rounded-full bg-secondary-container text-secondary text-[11px] font-bold">ใช้งาน</span>';
+        return '<span class="px-3 py-1 rounded-full bg-error-container text-error text-[11px] font-bold">ซ่อมบำรุง</span>';
+      }
+      function actionBtn(r) {
+        if (r.status === "available")
+          return `<button onclick="openBooking(${r.id},'${r.name}')" class="px-4 py-2 text-sm font-bold bg-primary text-on-primary rounded-full hover:shadow-lg transition-all active:scale-95">จอง</button>`;
+        return `<button class="px-4 py-2 text-sm font-bold bg-surface-container-high text-on-surface-variant rounded-full cursor-not-allowed">ไม่ว่าง</button>`;
+      }
+      function renderTable() {
+        const tbody = document.getElementById("resource-tbody");
+        const filtered = RESOURCES.filter((r) => {
+          const catOk = currentCat === "all" || r.cat === currentCat;
+          const stOk = currentStatus === "all" || r.status === currentStatus;
+          const qOk =
+            r.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+            r.location.toLowerCase().includes(currentSearch.toLowerCase());
+          return catOk && stOk && qOk;
+        });
+        tbody.innerHTML = filtered
+          .map(
+            (r) => `
+    <tr class="group hover:bg-surface-container-low/30 transition-all">
+      <td class="px-6 py-5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-lg shrink-0">
+            ${r.cat === "car" ? "🚗" : r.cat === "room" ? "🏢" : "🔧"}
+          </div>
+          <div>
+            <p class="font-bold text-on-surface text-sm leading-tight">${r.name}</p>
+            <p class="text-[11px] text-outline mt-0.5">id: ${r.id} · is_active: ${r.is_active}</p>
+          </div>
+        </div>
+      </td>
+      <td class="px-6 py-5 text-sm font-medium text-on-surface">${r.catLabel}</td>
+      <td class="px-6 py-5 text-sm text-on-surface-variant flex items-center gap-1 pt-6"><span class="material-symbols-outlined text-sm">location_on</span>${r.location}</td>
+      <td class="px-6 py-5 text-center"><span class="font-bold text-on-surface">${r.capacity}</span></td>
+      <td class="px-6 py-5 text-center">${statusBadge(r.status)}</td>
+      <td class="px-6 py-5 text-right">${actionBtn(r)}</td>
+    </tr>
+  `,
+          )
+          .join("");
+        document.getElementById("showing-count").textContent = filtered.length;
+      }
+
+      function filterCategory(cat, btn) {
+        currentCat = cat;
+        document.querySelectorAll(".tab-btn").forEach((b) => {
+          b.classList.remove("active");
+          b.classList.add("text-on-surface-variant");
+        });
+        btn.classList.add("active");
+        btn.classList.remove("text-on-surface-variant");
+        renderTable();
+      }
+      function filterStatus(st, btn) {
+        currentStatus = st;
+        document.querySelectorAll(".status-filter-btn").forEach((b) => {
+          b.classList.remove("bg-primary", "text-on-primary");
+          b.classList.add(
+            "bg-surface-container-low",
+            "text-on-surface-variant",
+          );
+        });
+        btn.classList.add("bg-primary", "text-on-primary");
+        btn.classList.remove(
+          "bg-surface-container-low",
+          "text-on-surface-variant",
+        );
+        renderTable();
+      }
+      function filterTable() {
+        currentSearch = document.getElementById("search-input").value;
+        renderTable();
+      }
+
+      let bookingCount = 1;
+      function openBooking(id, name) {
+        document.getElementById("modal-title").textContent = "จอง: " + name;
+        document.getElementById("modal-sub").textContent =
+          "resource_id: " + id + " · ส่งเข้าระบบ resource_bookings";
+        document.getElementById("modal-code").textContent =
+          "RES-2026-" + String(bookingCount).padStart(4, "0");
+        document.getElementById("booking-modal").classList.add("open");
+      }
+      function closeModal(e) {
+        if (e.target === document.getElementById("booking-modal"))
+          document.getElementById("booking-modal").classList.remove("open");
+      }
+      function submitResourceBooking() {
+        document.getElementById("booking-modal").classList.remove("open");
+        bookingCount++;
+        alert("ส่งคำขอจองเรียบร้อย! สถานะ: pending — รอการอนุมัติ");
+      }
+
+      // Nav active
+      (function () {
+        const p = location.pathname.split("/").pop() || "dashboard.html";
+        document.querySelectorAll("#sidebar-nav .nav-link").forEach((l) => {
+          if (l.dataset.page === p) {
+            l.classList.add(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.remove(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          } else {
+            l.classList.remove(
+              "bg-surface-container-lowest",
+              "text-primary",
+              "font-semibold",
+              "shadow-sm",
+            );
+            l.classList.add(
+              "text-on-surface-variant",
+              "hover:text-on-surface",
+              "hover:bg-surface-bright",
+            );
+          }
+        });
+      })();
+      renderTable();
+    </script>
+  
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex justify-around items-center h-16 px-2 z-50 border-t border-outline-variant/10">
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="dashboard.html">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[9px] font-bold">หน้าหลัก</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="booking.html">
+        <span class="material-symbols-outlined text-[22px]">directions_car</span>
+        <span class="text-[9px] font-bold">จองรถ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="resource.html">
+        <span class="material-symbols-outlined text-[22px]">meeting_room</span>
+        <span class="text-[9px] font-bold">ห้อง</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="approval.html">
+        <span class="material-symbols-outlined text-[22px]">task</span>
+        <span class="text-[9px] font-bold">อนุมัติ</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 text-on-surface-variant px-3 py-1" href="admin.html">
+        <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+        <span class="text-[9px] font-bold">Admin</span>
+      </a>
+    </nav>
+
+  <script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('app-sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+    document.getElementById('sidebar-overlay').addEventListener('click', function() {
+      document.getElementById('app-sidebar').classList.remove('open');
+      this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
